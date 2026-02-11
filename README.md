@@ -11,3 +11,5 @@ php artisan make:migration create_playlist_song_table
 php artisan make:migration create_queue_song_table
 
 php artisan migrate:refresh
+
+php artisan migrate:fresh

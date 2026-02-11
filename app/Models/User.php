@@ -6,7 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -50,5 +52,5 @@ class User extends Authenticatable
     public function songs() { return $this->hasMany(Song::class); }
     public function albums() { return $this->hasMany(Album::class); }
     public function playlists() { return $this->hasMany(Playlist::class); }
-    public function queue() { return $this->hasOne(Queue::class); }
+    public function queue() { return $this->hasMany(Queue::class); }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('queue_id')->constrained()->onDelete('cascade');
             $table->foreignId('song_id')->constrained()->onDelete('cascade');
             $table->integer('position');
-            $table->timestamp('added_at')->useCurrent();
+            $table->timestamps(); 
 
             $table->primary(['queue_id', 'position']);
         });

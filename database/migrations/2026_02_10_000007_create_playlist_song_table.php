@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('playlist_song', function (Blueprint $table) {
             $table->foreignId('song_id')->constrained()->onDelete('cascade');
             $table->foreignId('playlist_id')->constrained()->onDelete('cascade');
-            $table->timestamp('added_at')->useCurrent();
             $table->timestamps();
 
             $table->primary(['song_id', 'playlist_id']);
