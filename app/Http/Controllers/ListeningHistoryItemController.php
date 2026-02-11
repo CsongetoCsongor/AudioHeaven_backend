@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ListeningHistory;
+use App\Models\ListeningHistoryItem;
 use Illuminate\Http\Request;
 
-class ListeningHistoryController extends Controller
+class ListeningHistoryItemController extends Controller
 {
     /**
      * Display a listing of the resource.

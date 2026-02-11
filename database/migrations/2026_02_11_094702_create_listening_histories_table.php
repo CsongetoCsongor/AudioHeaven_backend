@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('listening_histories', function (Blueprint $table) {
-            Schema::create('listening_histories', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
-                $table->foreignId('song_id')->constrained()->onDelete('cascade');
-                $table->foreignId('album_id')->nullable()->constrained()->onDelete('set null');
-                $table->foreignId('playlist_id')->nullable()->constrained()->onDelete('set null');
-                $table->timestamps();
-});
+        Schema::create('listening_history_items', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('song_id')->constrained()->onDelete('cascade');
+            $table->foreignId('album_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('playlist_id')->nullable()->constrained()->onDelete('set null');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('listening_histories');
+        Schema::dropIfExists('listening_history_items');
     }
 };

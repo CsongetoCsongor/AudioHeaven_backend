@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Queue;
+use App\Models\QueueItem;
 use Illuminate\Http\Request;
 
-class QueueController extends Controller
+class QueueItemController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ListeningHistory extends Model
+class ListeningHistoryItem extends Model
 {
     protected $fillable = ['user_id', 'song_id', 'album_id', 'playlist_id'];
 
