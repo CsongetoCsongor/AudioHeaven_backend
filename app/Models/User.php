@@ -22,6 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'profile_picture',
         'email',
         'password',
     ];
@@ -52,5 +53,6 @@ class User extends Authenticatable
     public function songs() { return $this->hasMany(Song::class); }
     public function albums() { return $this->hasMany(Album::class); }
     public function playlists() { return $this->hasMany(Playlist::class); }
-    public function queue() { return $this->hasMany(Queue::class); }
+    public function queueItems() { return $this->hasMany(QueueItem::class); }
+    public function listeningHistoryItems() { return $this->hasMany(ListeningHistoryItem::class); }
 }

@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class QueueItem extends Model
 {
     public function user() { return $this->belongsTo(User::class); }
-    public function songs() { return $this->belongsToMany(Song::class)->withPivot('position'); }
+    public function song() { return $this->belongsTo(Song::class); }
 }
