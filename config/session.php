@@ -177,7 +177,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Setting this value to true will prevent JavaScript from accessing the
-    | value of the cookie and the cookie will only be accessible through
+    | value of the cookie and the cookie will only be accessible thSrough
     | the HTTP protocol. It's unlikely you should disable this option.
     |
     */

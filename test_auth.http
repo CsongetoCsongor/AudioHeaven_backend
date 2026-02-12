@@ -1,0 +1,54 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### 1. Regisztráció (Felhasználó létrehozása + Profilkép)
+# Megjegyzés: A profilkép elérési útja a gépeden lévő valós fájlra mutasson!
+POST {{baseUrl}}/register
+Accept: application/json
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="username"
+
+Teszt Elek
+--boundary
+Content-Disposition: form-data; name="email"
+
+teszt@example.com
+--boundary
+Content-Disposition: form-data; name="password"
+
+password123
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
+Content-Type: image/png
+
+< ./pfp.jpg
+--boundary--
+
+###
+
+### 2. Bejelentkezés
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt@example.com",
+    "password": "password123"
+}
+
+###
+
+### 3. Kijelentkezés
+POST {{baseUrl}}/logout
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+### 4. Bejelentkezett felhasználó adatai (Teszt)
+GET {{baseUrl}}/me
+Accept: application/json
+Authorization: Bearer {{authToken}}
