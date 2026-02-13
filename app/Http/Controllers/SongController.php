@@ -43,7 +43,7 @@ class SongController extends Controller
             'stored_at' => asset('storage/' . $audioPath),
             'cover' => asset('storage/' . $coverPath),
             'user_id' => $request->user()->id,
-            'album_id' => $fields['album_id'] ?? null,
+            'album_id' => null
         ]);
 
         return response()->json([
