@@ -48,7 +48,32 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-### 4. Bejelentkezett felhasználó adatai (Teszt)
-GET {{baseUrl}}/me
+###Zene feltöltése (Bejelentkezés szükséges)
+POST {{baseUrl}}/songs
 Accept: application/json
 Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="title"
+
+Hereos Tonight
+--boundary
+Content-Disposition: form-data; name="audio"; filename="Hereos Tonight.mp3"
+Content-Type: audio/mpeg
+
+< ./Hereos Tonight.mp3
+--boundary
+Content-Disposition: form-data; name="cover"; filename="cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary--
+
+###
+
+### 4. Adott felhasználó zenéinek listázása (Bejelentkezés szükséges)
+GET {{baseUrl}}/users/1/songs
+Accept: application/json
+Authorization: Bearer {{authToken}}
+###
