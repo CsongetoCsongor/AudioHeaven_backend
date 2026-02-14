@@ -40,8 +40,8 @@ class SongController extends Controller
         $song = Song::create([
             'title' => $fields['title'],
             'plays' => 0,
-            'stored_at' => asset('storage/' . $audioPath),
-            'cover' => asset('storage/' . $coverPath),
+            'stored_at' => 'app/public/' . $audioPath,
+            'cover' => 'app/public/' . $coverPath,
             'user_id' => $request->user()->id,
             'album_id' => null
         ]);
@@ -51,6 +51,80 @@ class SongController extends Controller
             'song' => $song
         ], 201);
     }
+
+    public function play($id)
+    {
+
+
+        $song = Song::find($id);
+
+        if (!$song) {
+            return response()->json(['error' => 'Song not found'], 404);
+        }
+
+        $path = storage_path($song->stored_at);
+
+        if (!is_file($path)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        if (!is_file($path)) {
+            return $this->play(1);
+        }
+
+        $size = filesize($path);
+        $start = 0;
+        $end = $size - 1;
+
+        $headers = [
+            'Content-Type' => 'audio/mpeg',
+            'Accept-Ranges' => 'bytes',
+        ];
+
+        if (request()->hasHeader('Range')) {
+
+            preg_match('/bytes=(\d+)-(\d*)/', request()->header('Range'), $matches);
+
+            $start = intval($matches[1]);
+            $end = $matches[2] !== '' ? intval($matches[2]) : $end;
+
+            if ($end >= $size) {
+                $end = $size - 1;
+            }
+
+            $length = $end - $start + 1;
+
+            return response()->stream(function () use ($path, $start, $length) {
+
+                $file = fopen($path, 'rb');
+                fseek($file, $start);
+
+                $buffer = 8192;
+                $bytesToRead = $length;
+
+                while ($bytesToRead > 0 && !feof($file)) {
+                    $read = ($bytesToRead > $buffer) ? $buffer : $bytesToRead;
+                    echo fread($file, $read);
+                    flush();
+                    $bytesToRead -= $read;
+                }
+
+                fclose($file);
+
+            }, 206, array_merge($headers, [
+                'Content-Range' => "bytes $start-$end/$size",
+                'Content-Length' => $length,
+            ]));
+        }
+
+        return response()->stream(function () use ($path) {
+            readfile($path);
+        }, 200, array_merge($headers, [
+            'Content-Length' => $size,
+        ]));
+    }
+
+
 
     /**
      * Display the specified resource.

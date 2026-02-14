@@ -10,11 +10,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elekk
+Teszt Elek
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt2@example.com
+teszt@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
@@ -35,7 +35,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "teszt2@example.com",
+    "email": "teszt@example.com",
     "password": "password123"
 }
 

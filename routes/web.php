@@ -3,6 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return phpinfo();
+    return response()->file(public_path('index.html'));
 });
 

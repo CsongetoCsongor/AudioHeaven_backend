@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Test</title>
+</head>
+<body>
+  <h2>Player</h2>
+  <audio id="player" controls src="/api/play/1"></audio>
+  <button onclick="prev()"> < </button>
+  <button onclick="next()"> > </button>
+
+  <script>
+    const player = document.getElementById('player');
+
+    const next = () => {
+      let current = Number(player.src.split("/").pop());
+      player.src = "/api/play/" + (current + 1);
+      player.load(); // biztosan újratölti
+      player.play(); // automatikusan elindítja
+    }
+
+    const prev = () => {
+      let current = Number(player.src.split("/").pop());
+      player.src = "/api/play/" + (current - 1);
+      player.load(); // biztosan újratölti
+      player.play(); // automatikusan elindítja
+    }
+  </script>
+</body>
+</html>
