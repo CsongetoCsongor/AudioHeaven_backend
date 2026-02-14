@@ -29,7 +29,7 @@ class SongController extends Controller
 
         $fields = $request->validate([
             'title' => 'required|string|max:255',
-            'audio' => 'required|file|mimetypes:audio/mpeg,text/plain,application/octet-stream|extensions:mp3,wav,ogg|max:20000',
+            'audio' => 'required|file|mimes:mp3,wav,ogg|max:20000',
             'cover' => 'required|image|mimes:jpg,jpeg,png|max:5000',
             'album_id' => 'nullable|exists:albums,id'
         ]);

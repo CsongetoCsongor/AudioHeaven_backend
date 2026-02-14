@@ -35,7 +35,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "teszt@example.com",
+    "email": "teszt2@example.com",
     "password": "password123"
 }
 
@@ -57,12 +57,12 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Hereos Tonight2
+Ominozus
 --boundary
-Content-Disposition: form-data; name="audio"; filename="Hereos Tonight.mp3"
+Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
 
-< ./Hereos Tonight.mp3
+< ./3_OMINOZUS.mp3
 --boundary
 Content-Disposition: form-data; name="cover"; filename="cover.jpg"
 Content-Type: image/jpeg
