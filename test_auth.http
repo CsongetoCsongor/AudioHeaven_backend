@@ -10,20 +10,20 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek2
+Teszt Elek6
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt2@example.com
+teszt6@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
 password123
---boundary
-Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
-Content-Type: image/png
+# --boundary
+# Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
+# Content-Type: image/png
 
-< ./pfp.jpg
+# < ./pfp.jpg
 --boundary--
 
 ###

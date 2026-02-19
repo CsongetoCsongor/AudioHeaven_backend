@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         // Ha érkezett fájl, felülírjuk az alapértelmezettet
         if ($request->hasFile('profile_picture')) {
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $path = 'app/public/' . $request->file('profile_picture')->store('profile_pictures', 'public');
         }
 
         $user = User::create([
