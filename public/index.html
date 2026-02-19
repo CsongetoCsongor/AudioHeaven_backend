@@ -5,12 +5,25 @@
   <title>Audio Test</title>
 </head>
 <body>
+
+  <img id="user-pfp" src="" alt="Profilkép betöltése..." style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+
   <h2>Player</h2>
   <audio id="player" controls src="/api/play/1"></audio>
   <button onclick="prev()"> < </button>
   <button onclick="next()"> > </button>
 
   <script>
+
+    fetch('http://localhost:8000/api/users/2') 
+    .then(response => response.json())
+    .then(data => {
+        // A data.profile_picture már a teljes URL lesz: http://localhost:8000/storage/defaults/...
+        document.getElementById('user-pfp').src = data.profile_picture;
+    })
+    .catch(err => console.error("Hiba történt:", err));
+
+
     const player = document.getElementById('player');
 
     const next = () => {

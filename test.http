@@ -1,8 +1,7 @@
 @baseUrl = http://localhost:8000/api
 @authToken = {{login.response.body.token}}
 
-### 1. Regisztráció (Felhasználó létrehozása + Profilkép)
-# Megjegyzés: A profilkép elérési útja a gépeden lévő valós fájlra mutasson!
+### Regisztráció
 POST {{baseUrl}}/register
 Accept: application/json
 Content-Type: multipart/form-data; boundary=boundary
@@ -10,11 +9,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek6
+Teszt Elek2
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt6@example.com
+teszt2@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
@@ -28,7 +27,7 @@ password123
 
 ###
 
-### 2. Bejelentkezés
+### Bejelentkezés
 # @name login
 POST {{baseUrl}}/login
 Accept: application/json
@@ -41,14 +40,14 @@ Content-Type: application/json
 
 ###
 
-### 3. Kijelentkezés
+### Kijelentkezés
 POST {{baseUrl}}/logout
 Accept: application/json
 Authorization: Bearer {{authToken}}
 
 ###
 
-###Zene feltöltése (Bejelentkezés szükséges)
+### Zene feltöltése (Bejelentkezés szükséges)
 POST {{baseUrl}}/songs
 Accept: application/json
 Authorization: Bearer {{authToken}}
@@ -72,8 +71,14 @@ Content-Type: image/jpeg
 
 ###
 
-### 4. Adott felhasználó zenéinek listázása (Bejelentkezés szükséges)
+### Adott felhasználó zenéinek listázása (Bejelentkezés szükséges)
 GET {{baseUrl}}/users/1/songs
 Accept: application/json
 Authorization: Bearer {{authToken}}
+###
+
+### Felhasználó lekérdezése ID alapján
+GET {{baseUrl}}/users/1
+Accept: application/json
+
 ###

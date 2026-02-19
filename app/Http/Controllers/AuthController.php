@@ -20,11 +20,11 @@ class AuthController extends Controller
         ]);
 
         // Alapértelmezett érték beállítása
-        $path = 'app/public/defaults/default_profile_picture.png';
+        $path = 'defaults/default_profile_picture.png';
 
         // Ha érkezett fájl, felülírjuk az alapértelmezettet
         if ($request->hasFile('profile_picture')) {
-            $path = 'app/public/' . $request->file('profile_picture')->store('profile_pictures', 'public');
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
         }
 
         $user = User::create([
@@ -32,7 +32,7 @@ class AuthController extends Controller
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
             // Egységesítjük az elérési utat
-            'profile_picture' => $path 
+            'profile_picture' => asset('storage/' . $path)
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

@@ -50,6 +50,26 @@ class User extends Authenticatable
         ];
     }
 
+//     protected function profilePicture(): Attribute
+// {
+//         return Attribute::make(
+//         get: function ($value) {
+//             // Ha nincs érték, az alapértelmezettet adjuk
+//             if (!$value) {
+//                 return asset('storage/defaults/default_profile_picture.png');
+//             }
+
+//             // Kitisztítjuk a hibás "app/public/" részt a stringből
+//             // Így a "app/public/defaults/kép.png"-ből "defaults/kép.png" lesz
+//             $cleanPath = str_replace('app/public/', '', $value);
+
+//             // Az asset() függvény csinál belőle teljes URL-t:
+//             // http://localhost:8000/storage/defaults/default_profile_picture.png
+//             return asset('storage/' . $cleanPath);
+//         },
+//     );
+// }
+
     public function songs() { return $this->hasMany(Song::class); }
     public function albums() { return $this->hasMany(Album::class); }
     public function playlists() { return $this->hasMany(Playlist::class); }
