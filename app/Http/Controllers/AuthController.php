@@ -15,10 +15,14 @@ class AuthController extends Controller
             'username' => 'required|string|unique:users,name',
             'email' => 'required|string|unique:users,email',
             'password' => ['required', 'string', Password::defaults()],
-            'profile_picture' => 'required|image|mimes:jpg,jpeg,png|max:10000'
+            // Kicseréltük: nullable, így nem hiba, ha üres
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:10000'
         ]);
 
-        $path = null;
+        // Alapértelmezett érték beállítása
+        $path = 'app/public/defaults/default_profile_picture.png';
+
+        // Ha érkezett fájl, felülírjuk az alapértelmezettet
         if ($request->hasFile('profile_picture')) {
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
         }
@@ -27,7 +31,8 @@ class AuthController extends Controller
             'name' => $fields['username'],
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
-            'profile_picture' => $path ? 'app/public/' . $path : null
+            // Egységesítjük az elérési utat
+            'profile_picture' => $path 
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
