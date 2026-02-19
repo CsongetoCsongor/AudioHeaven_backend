@@ -27,7 +27,7 @@ class AuthController extends Controller
             'name' => $fields['username'],
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
-            'profile_picture' => $path ? asset('storage/' . $path) : null,
+            'profile_picture' => $path ? 'app/public/' . $path : null
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
