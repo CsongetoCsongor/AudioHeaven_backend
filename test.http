@@ -81,3 +81,47 @@ GET {{baseUrl}}/users/1
 Accept: application/json
 
 ###
+
+### Album feltöltése zenékkel (Bejelentkezés szükséges)
+POST {{baseUrl}}/albums
+Accept: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="title"
+
+Teszt Album 13
+--boundary
+Content-Disposition: form-data; name="album_cover"; filename="album_cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary
+Content-Disposition: form-data; name="songs[0][title]"
+
+Elso Szam
+--boundary
+Content-Disposition: form-data; name="songs[0][audio]"; filename="3_OMINOZUS.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS.mp3
+--boundary
+Content-Disposition: form-data; name="songs[1][title]"
+
+Masodik Szam
+--boundary
+Content-Disposition: form-data; name="songs[1][audio]"; filename="3_OMINOZUS2.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS2.mp3
+--boundary
+Content-Disposition: form-data; name="songs[2][title]"
+
+Harmadik Szam
+--boundary
+Content-Disposition: form-data; name="songs[2][audio]"; filename="3_OMINOZUS2.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS2.mp3
+--boundary

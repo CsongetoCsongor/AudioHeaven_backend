@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Album extends Model
 {
+    protected $fillable = ['title', 'album_cover', 'user_id'];
+
     public function user() { return $this->belongsTo(User::class); }
     public function songs() { return $this->hasMany(Song::class); }
     public function listeningHistoryItems() { return $this->hasMany(ListeningHistoryItem::class); }
