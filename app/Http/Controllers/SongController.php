@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Song;
 use App\Models\User;
+use App\Models\ListeningHistoryItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SongController extends Controller
 {
@@ -54,8 +56,6 @@ class SongController extends Controller
 
     public function play($id)
     {
-
-
         $song = Song::find($id);
 
         if (!$song) {
@@ -68,13 +68,14 @@ class SongController extends Controller
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        if (!is_file($path)) {
-            return $this->play(1);
-        }
-
+        // if (!is_file($path)) {
+        //     return $this->play(1);
+        // }
         $size = filesize($path);
         $start = 0;
         $end = $size - 1;
+
+        
 
         $headers = [
             'Content-Type' => 'audio/mpeg',
@@ -124,7 +125,48 @@ class SongController extends Controller
         ]));
     }
 
+    public function logPlay(Request $request, $id)
+    {
+    //     if (!$request->user()) {
+    //     return response()->json([
+    //         'debug_error' => 'A Laravel szerint nincs bejelentkezve senki',
+    //         'token_present' => $request->bearerToken() ? 'Igen' : 'Nem',
+    //         'headers' => $request->headers->all() 
+    //     ], 401);
+    // }
 
+        $song = Song::find($id);
+
+        if (!$song) {
+            return response()->json(['error' => 'Song not found'], 404);
+        }
+
+        try {
+            DB::transaction(function () use ($request, $song) {
+                // 1. Plays növelése
+                $song->increment('plays');
+
+                // 2. History mentése
+                // Megpróbáljuk lekérni a bejelentkezett felhasználót (ha van token)
+                $user = auth('sanctum')->user();
+                
+                ListeningHistoryItem::create([
+                    'user_id'     => $user ? $user->id : null, // Ha nincs bejelentkezve, marad a 3-as teszt user, vagy null
+                    'song_id'     => $song->id,
+                    'album_id'    => $song->album_id,
+                    'playlist_id' => $request->input('playlist_id'), // POST body-ból vagy query-ből
+                ]);
+            });
+
+            return response()->json(['message' => 'Play logged successfully'], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to log play',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     /**
      * Display the specified resource.

@@ -70,6 +70,29 @@ Content-Type: image/jpeg
 
 ###
 
+### Új lejátszási lista létrehozása
+POST http://localhost:8000/api/playlists
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "Kedvenc Rock zenéim"
+}
+
+###
+
+### Lejátszás naplózása (Plays + History)
+POST {{baseUrl}}/songs/13/log-play
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "playlist_id": 1
+}
+###
+
 ### Adott felhasználó zenéinek listázása (Bejelentkezés szükséges)
 GET {{baseUrl}}/users/2/songs
 Accept: application/json

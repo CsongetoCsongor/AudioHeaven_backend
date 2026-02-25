@@ -20,7 +20,20 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        // 2. Létrehozás (a bejelentkezett felhasználóhoz kötve)
+        $playlist = Playlist::create([
+            'title' => $fields['title'],
+            'user_id' => $request->user()->id,
+        ]);
+
+        return response()->json([
+            'message' => 'Playlist created successfully!',
+            'playlist' => $playlist
+        ], 201);
     }
 
     /**

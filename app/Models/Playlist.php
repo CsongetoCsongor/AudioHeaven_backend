@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Playlist extends Model
 {
+    protected $fillable = ['title', 'user_id'];
+
     public function user() { return $this->belongsTo(User::class); }
     public function songs() { return $this->belongsToMany(Song::class)->withTimestamps(); }
     public function listeningHistoryItems() { return $this->hasMany(ListeningHistoryItem::class); }
