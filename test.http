@@ -55,7 +55,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Ominozus
+Ominozusteszt
 --boundary
 Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
@@ -71,7 +71,7 @@ Content-Type: image/jpeg
 ###
 
 ### Adott felhasználó zenéinek listázása (Bejelentkezés szükséges)
-GET {{baseUrl}}/users/1/songs
+GET {{baseUrl}}/users/2/songs
 Accept: application/json
 Authorization: Bearer {{authToken}}
 ###
@@ -125,3 +125,8 @@ Content-Type: audio/mpeg
 
 < ./3_OMINOZUS2.mp3
 --boundary
+
+### 1. Zene lejátszása (Alapértelmezett, nincs playlist)
+# Ez rögzíti a history-t album_id-val (ha van), de playlist_id nélkül.
+GET {{baseUrl}}/songs/1/play
+Accept: audio/mpeg
