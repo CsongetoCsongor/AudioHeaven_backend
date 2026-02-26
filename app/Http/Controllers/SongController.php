@@ -43,7 +43,7 @@ class SongController extends Controller
             'title' => $fields['title'],
             'plays' => 0,
             'stored_at' => 'app/public/' . $audioPath,
-            'cover' => 'app/public/' . $coverPath,
+            'cover' => 'storage/' . $coverPath,
             'user_id' => $request->user()->id,
             'album_id' => null
         ]);

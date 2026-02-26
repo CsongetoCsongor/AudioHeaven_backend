@@ -31,8 +31,7 @@ class AuthController extends Controller
             'name' => $fields['username'],
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
-            // Egységesítjük az elérési utat
-            'profile_picture' => asset('storage/' . $path)
+            'profile_picture' => 'storage/' . $path
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

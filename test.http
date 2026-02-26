@@ -9,20 +9,21 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek677
+Teszt ElekSTORAGE2
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt677@example.com
+teszt677storage2@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
 password123
-# --boundary
-# Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
-# Content-Type: image/png
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
+Content-Type: image/png
 
-# < ./pfp.jpg
+< ./pfp.jpg
+--boundary--
 
 ###
 
@@ -55,7 +56,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Ominozusteszt
+OminozustesztSTORAGE
 --boundary
 Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
