@@ -9,11 +9,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt ElekSTORAGE2
+Teszt Elek
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt677storage2@example.com
+teszt677@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
@@ -56,7 +56,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-OminozustesztSTORAGE
+Ominozus
 --boundary
 Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
@@ -78,13 +78,13 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "title": "Kedvenc Rock zenéim"
+    "title": "Kedvenc zenéim"
 }
 
 ###
 
 ### Lejátszás naplózása (Plays + History)
-POST {{baseUrl}}/songs/13/log-play
+POST {{baseUrl}}/songs/4/log-play
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: application/json
@@ -95,7 +95,7 @@ Content-Type: application/json
 ###
 
 ### Adott felhasználó zenéinek listázása (Bejelentkezés szükséges)
-GET {{baseUrl}}/users/2/songs
+GET {{baseUrl}}/users/1/songs
 Accept: application/json
 Authorization: Bearer {{authToken}}
 ###

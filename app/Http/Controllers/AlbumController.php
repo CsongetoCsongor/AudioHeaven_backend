@@ -53,7 +53,7 @@ class AlbumController extends Controller
                     $album->songs()->create([
                         'title' => $songTitle,
                         'plays' => 0,
-                        'stored_at' => 'storage/' . $audioPath,
+                        'stored_at' => 'app/public/' . $audioPath,
                         'cover' => 'storage/' . $albumCoverPath, // Az album borítóját kapja a zene is
                         'user_id' => $request->user()->id,
                     ]);
