@@ -34,7 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/{id}/songs', [SongController::class, 'listByUser']);
 
 
-    // Route::get('/me', function (Request $request) {
-    //     return $request->user();
-    // });
+    Route::get('/me', [UserController::class, 'me']);
 });

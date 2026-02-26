@@ -47,6 +47,13 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+### Saját user adatok
+GET {{baseUrl}}/me
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
 ### Zene feltöltése (Bejelentkezés szükséges)
 POST {{baseUrl}}/songs
 Accept: application/json
