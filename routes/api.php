@@ -23,10 +23,12 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::get('/playlists', [PlaylistController::class, 'index']);
+
     Route::post('/playlists', [PlaylistController::class, 'store']);
 
     Route::post('/songs/{id}/log-play', [SongController::class, 'logPlay']);
-    
+
     Route::post('/songs', [SongController::class, 'store']);
 
     Route::post('/albums', [AlbumController::class, 'store']);

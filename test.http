@@ -85,9 +85,15 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "title": "Kedvenc zenéim"
+    "title": "Kedvenc zenéim2"
 }
 
+###
+
+### Bejelentkezett felhasználó saját playlistjeinek lekérése
+GET http://localhost:8000/api/playlists
+Authorization: Bearer {{authToken}}
+Accept: application/json
 ###
 
 ### Lejátszás naplózása (Plays + History)

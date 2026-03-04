@@ -10,9 +10,13 @@ class PlaylistController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    // App\Http\Controllers\PlaylistController.php
+
+    public function index(Request $request)
     {
-        //
+        $playlists = $request->user()->playlists()->get();
+
+        return response()->json($playlists, 200);
     }
 
     /**
