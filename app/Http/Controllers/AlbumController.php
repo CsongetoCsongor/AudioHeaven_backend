@@ -30,6 +30,19 @@ class AlbumController extends Controller
         return response()->json($albums, 200);
     }
 
+    public function random(Request $request)
+    {
+        $count = $request->query('count', 10);
+
+        $albums = Album::inRandomOrder()
+            ->limit($count)
+            ->with('user:id,name')
+            ->withCount('songs')
+            ->get();
+
+        return response()->json($albums);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

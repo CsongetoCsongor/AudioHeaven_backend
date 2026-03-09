@@ -27,6 +27,19 @@ class SongController extends Controller
         return response()->json($songs, 200);
     }
 
+    public function random(Request $request)
+    {
+        
+        $count = $request->query('count', 10);
+
+        $songs = Song::inRandomOrder()
+            ->limit($count)
+            ->with(['user:id,name', 'album:id,title'])
+            ->get();
+
+        return response()->json($songs);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

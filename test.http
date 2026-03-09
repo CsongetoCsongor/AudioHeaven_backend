@@ -78,6 +78,24 @@ Accept: application/json
 
 ###
 
+### 5 véletlenszerű zene lekérése
+GET http://localhost:8000/api/songs/random?count=5
+Accept: application/json
+
+###
+
+### 3 véletlenszerű album lekérése
+GET http://localhost:8000/api/albums/random?count=3
+Accept: application/json
+
+###
+
+### 10 véletlenszerű user (előadó) lekérése
+GET http://localhost:8000/api/users/random?count=10
+Accept: application/json
+
+###
+
 ### Zene feltöltése (Bejelentkezés szükséges)
 POST {{baseUrl}}/songs
 Accept: application/json
