@@ -54,6 +54,30 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+### Összes zene listázása
+GET http://localhost:8000/api/songs
+Accept: application/json
+
+###
+
+### Keresés cím alapján (pl. "rock")
+GET http://localhost:8000/api/songs?search=Elso
+Accept: application/json
+
+###
+
+### Albumok keresése (Cím vagy Előadó alapján)
+GET http://localhost:8000/api/albums?search=4
+Accept: application/json
+
+###
+
+### Felhasználók/Előadók keresése
+GET http://localhost:8000/api/users?search=b
+Accept: application/json
+
+###
+
 ### Zene feltöltése (Bejelentkezés szükséges)
 POST {{baseUrl}}/songs
 Accept: application/json
@@ -128,7 +152,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Teszt Album 13
+Teszt Album 14
 --boundary
 Content-Disposition: form-data; name="album_cover"; filename="album_cover.jpg"
 Content-Type: image/jpeg

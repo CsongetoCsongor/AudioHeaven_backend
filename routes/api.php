@@ -20,6 +20,12 @@ Route::get('/play/{id}', [SongController::class, 'play']);
 
 Route::get('/users/{id}', [UserController::class, 'show']);
 
+Route::get('/songs', [SongController::class, 'index']);
+
+Route::get('/albums', [AlbumController::class, 'index']);
+
+Route::get('/users', [UserController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 

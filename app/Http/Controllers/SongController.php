@@ -13,9 +13,18 @@ class SongController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->query('search');
+
+        $songs = Song::query()
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            })
+            ->with(['user:id,name', 'album:id,title']) // Kapcsolt adatok betöltése (opcionális, de hasznos)
+            ->get();
+
+        return response()->json($songs, 200);
     }
 
     /**
