@@ -48,4 +48,36 @@ class UserController extends Controller
     public function me(Request $request) {
         return $request->user();
     }
+
+    public function destroy(Request $request)
+    {
+        $user = $request->user();
+
+
+        if ($user->profile_picture && !str_contains($user->profile_picture, 'default')) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_picture);
+        }
+
+        $user->delete();
+        
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'User account deleted successfully.'
+        ], 200);
+    }
+
+    public function destroyById($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Törlés (a cascade delete miatt a fájlok/kapcsolatok törlődnek)
+        $user->delete();
+
+        return response()->json(['message' => "User #{$id} has been deleted by Admin."]);
+    }
 }

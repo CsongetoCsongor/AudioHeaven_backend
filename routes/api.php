@@ -34,6 +34,9 @@ Route::get('/albums/random', [AlbumController::class, 'random']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::delete('/user', [UserController::class, 'destroy']);
+
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/playlists', [PlaylistController::class, 'index']);
@@ -50,4 +53,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::get('/me', [UserController::class, 'me']);
+});
+
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::delete('/admin/users/{id}', [UserController::class, 'destroyById']);
 });

@@ -9,21 +9,21 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek
+Teszt Elek2
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt677@example.com
+teszt6778@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
 password123
---boundary
-Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
-Content-Type: image/png
+# --boundary
+# Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
+# Content-Type: image/png
 
-< ./pfp.jpg
---boundary--
+# < ./pfp.jpg
+# --boundary--
 
 ###
 
@@ -34,8 +34,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "teszt677@example.com",
-    "password": "password123"
+    "email": "admin@example.com",
+    "password": "password"
 }
 
 ###
@@ -44,6 +44,20 @@ Content-Type: application/json
 POST {{baseUrl}}/logout
 Accept: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+### Saját felhasználói fiók törlése
+DELETE http://localhost:8000/api/user
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+###
+
+### User törlése Admin által
+DELETE http://localhost:8000/api/admin/users/2
+Authorization: Bearer {{authToken}}
+Accept: application/json
 
 ###
 
