@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\ListeningHistoryItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SongController extends Controller
 {
@@ -23,6 +24,19 @@ class SongController extends Controller
             })
             ->with(['user:id,name', 'album:id,title'])
             ->get();
+
+        return response()->json($songs, 200);
+    }
+
+    public function listByUser($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found!'], 404);
+        }
+
+        $songs = $user->songs;
 
         return response()->json($songs, 200);
     }
@@ -54,7 +68,7 @@ class SongController extends Controller
         $fields = $request->validate([
             'title' => 'required|string|max:255',
             'audio' => 'required|file|mimes:mp3,wav,ogg|max:20000',
-            'cover' => 'required|image|mimes:jpg,jpeg,png|max:5000',
+            'cover' => 'required|image|mimes:jpg,jpeg,png|max:10000',
             'album_id' => 'nullable|exists:albums,id'
         ]);
 
@@ -149,13 +163,6 @@ class SongController extends Controller
 
     public function logPlay(Request $request, $id)
     {
-    //     if (!$request->user()) {
-    //     return response()->json([
-    //         'debug_error' => 'A Laravel szerint nincs bejelentkezve senki',
-    //         'token_present' => $request->bearerToken() ? 'Igen' : 'Nem',
-    //         'headers' => $request->headers->all() 
-    //     ], 401);
-    // }
 
         $song = Song::find($id);
 
@@ -198,9 +205,37 @@ class SongController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Song $song)
+    public function update(Request $request, $id)
     {
-        //
+        $song = Song::findOrFail($id);
+
+        if ($song->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not your song!'], 403);
+        }
+
+        $fields = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'cover' => 'sometimes|required|image|mimes:jpg,jpeg,png|max:10000',
+        ]);
+
+        if ($request->has('title')) {
+            $song->title = $fields['title'];
+        }
+
+        if ($request->hasFile('cover')) {
+            $oldCoverPath = str_replace('storage/', '', $song->cover);
+            Storage::disk('public')->delete($oldCoverPath);
+
+            $newCoverPath = $request->file('cover')->store('covers', 'public');
+            $song->cover = 'storage/' . $newCoverPath;
+        }
+
+        $song->save();
+
+        return response()->json([
+            'message' => 'Song updated successfully!',
+            'song' => $song
+        ]);
     }
 
     /**
@@ -209,18 +244,5 @@ class SongController extends Controller
     public function destroy(Song $song)
     {
         //
-    }
-
-    public function listByUser($id)
-    {
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json(['message' => 'User not found!'], 404);
-        }
-
-        $songs = $user->songs;
-
-        return response()->json($songs, 200);
     }
 }

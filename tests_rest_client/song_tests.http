@@ -41,7 +41,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Ominozus
+Régi cím
 --boundary
 Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
@@ -66,3 +66,20 @@ Content-Type: application/json
     "playlist_id": 2
 }
 ###
+
+### Modify song
+POST http://localhost:8000/api/songs/4
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: multipart/form-data; boundary=boundary
+
+# --boundary
+# Content-Disposition: form-data; name="title"
+
+# New title
+--boundary
+Content-Disposition: form-data; name="cover"; filename="uj_borito.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary--

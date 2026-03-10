@@ -34,15 +34,15 @@ class UserController extends Controller
     }
 
     public function show($id) {
-    $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-    return response()->json([
-        'id' => $user->id,
-        'name' => $user->name,
-        'profile_picture' => $user->profile_picture,
-        'email' => $user->email,
-        'created_at' => $user->created_at
-    ], 200);
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'profile_picture' => $user->profile_picture,
+            'email' => $user->email,
+            'created_at' => $user->created_at
+        ], 200);
     }
 
     public function me(Request $request) {
@@ -75,7 +75,6 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        // Törlés (a cascade delete miatt a fájlok/kapcsolatok törlődnek)
         $user->delete();
 
         return response()->json(['message' => "User #{$id} has been deleted by Admin."]);

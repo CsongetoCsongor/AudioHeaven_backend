@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/songs', [SongController::class, 'store']);
 
+    Route::post('/songs/{id}', [SongController::class, 'update']);
+
     Route::post('/albums', [AlbumController::class, 'store']);
 
     Route::get('/users/{id}/songs', [SongController::class, 'listByUser']);
