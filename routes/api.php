@@ -43,6 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/playlists', [PlaylistController::class, 'store']);
 
+    Route::post('/playlists/{id}/songs', [PlaylistController::class, 'addSong']);
+
     Route::post('/songs/{id}/log-play', [SongController::class, 'logPlay']);
 
     Route::post('/songs', [SongController::class, 'store']);

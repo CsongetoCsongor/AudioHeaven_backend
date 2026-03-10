@@ -9,11 +9,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek2
+Teszt Elek
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt6778@example.com
+teszt@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
@@ -34,8 +34,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "admin@example.com",
-    "password": "password"
+    "email": "teszt@example.com",
+    "password": "password123"
 }
 
 ###
@@ -146,6 +146,18 @@ Content-Type: application/json
 
 ###
 
+### Zene hozzáadása lejátszási listához
+POST http://localhost:8000/api/playlists/2/songs
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "song_id": 2
+}
+
+###
+
 ### Bejelentkezett felhasználó saját playlistjeinek lekérése
 GET http://localhost:8000/api/playlists
 Authorization: Bearer {{authToken}}
@@ -153,7 +165,7 @@ Accept: application/json
 ###
 
 ### Lejátszás naplózása (Plays + History)
-POST {{baseUrl}}/songs/4/log-play
+POST {{baseUrl}}/songs/1/log-play
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: application/json
