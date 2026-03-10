@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### Login
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt@example.com",
+    "password": "password123"
+}
+
+###
+
+### Create new playlist
+POST http://localhost:8000/api/playlists
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "Legjobb zenék"
+}
+
+###
+
+### Get my playlists
+GET http://localhost:8000/api/playlists
+Authorization: Bearer {{authToken}}
+Accept: application/json
+###
+
+### Add song to playlist
+POST http://localhost:8000/api/playlists/2/songs/1
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+###
+
+### Delete song from playlist
+DELETE http://localhost:8000/api/playlists/2/songs/1
+Authorization: Bearer {{authToken}}
+Accept: application/json

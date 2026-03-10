@@ -1,0 +1,71 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### Login
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt@example.com",
+    "password": "password123"
+}
+
+###
+
+### Search album by title or user(artist)
+GET http://localhost:8000/api/albums?search=4
+Accept: application/json
+
+###
+
+### Get a given amount of random albums
+GET http://localhost:8000/api/albums/random?count=3
+Accept: application/json
+
+###
+
+### Upload album
+POST {{baseUrl}}/albums
+Accept: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="title"
+
+Teszt Album 14
+--boundary
+Content-Disposition: form-data; name="album_cover"; filename="album_cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary
+Content-Disposition: form-data; name="songs[0][title]"
+
+Elso Szam
+--boundary
+Content-Disposition: form-data; name="songs[0][audio]"; filename="3_OMINOZUS.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS.mp3
+--boundary
+Content-Disposition: form-data; name="songs[1][title]"
+
+Masodik Szam
+--boundary
+Content-Disposition: form-data; name="songs[1][audio]"; filename="3_OMINOZUS2.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS2.mp3
+--boundary
+Content-Disposition: form-data; name="songs[2][title]"
+
+Harmadik Szam
+--boundary
+Content-Disposition: form-data; name="songs[2][audio]"; filename="3_OMINOZUS2.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS2.mp3
+--boundary

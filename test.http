@@ -69,8 +69,8 @@ Authorization: Bearer {{authToken}}
 ###
 
 ### Összes zene listázása
-GET http://localhost:8000/api/songs
-Accept: application/json
+# GET http://localhost:8000/api/songs
+# Accept: application/json
 
 ###
 

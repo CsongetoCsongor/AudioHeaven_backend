@@ -1,0 +1,54 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### Login
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt2@example.com",
+    "password": "password123"
+}
+
+###
+
+### Get user by id
+GET {{baseUrl}}/users/1
+Accept: application/json
+
+###
+
+### Delete own profile
+DELETE http://localhost:8000/api/user
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+###
+
+### Delete user profile by admin
+DELETE http://localhost:8000/api/admin/users/2
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+###
+
+### My profile data
+GET {{baseUrl}}/me
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+### Search users
+GET http://localhost:8000/api/users?search=b
+Accept: application/json
+
+###
+
+### Get a given amount of random users
+GET http://localhost:8000/api/users/random?count=10
+Accept: application/json
+
+###

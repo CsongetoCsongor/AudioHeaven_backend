@@ -59,19 +59,15 @@ class AlbumController extends Controller
 
         try {
             return DB::transaction(function () use ($request) {
-                // 2. Album borítókép mentése
                 $albumCoverPath = $request->file('album_cover')->store('covers', 'public');
 
-                // 3. Album létrehozása
                 $album = Album::create([
                     'title' => $request->title,
                     'album_cover' => 'app/public/' . $albumCoverPath,
                     'user_id' => $request->user()->id,
                 ]);
 
-                // 4. Zenék feldolgozása
                 foreach ($request->file('songs') as $index => $songData) {
-                    // A validáció miatt bízhatunk benne, hogy az indexek egyeznek a songs.*.title-lel
                     $songTitle = $request->input("songs.$index.title");
                     $audioPath = $songData['audio']->store('songs', 'public');
 
@@ -79,12 +75,11 @@ class AlbumController extends Controller
                         'title' => $songTitle,
                         'plays' => 0,
                         'stored_at' => 'app/public/' . $audioPath,
-                        'cover' => 'storage/' . $albumCoverPath, // Az album borítóját kapja a zene is
+                        'cover' => 'storage/' . $albumCoverPath,
                         'user_id' => $request->user()->id,
                     ]);
                 }
 
-                // Betöltjük a zenéket a válaszhoz
                 return response()->json($album->load('songs'), 201);
             });
         } catch (\Exception $e) {

@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### Login
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt2@example.com",
+    "password": "password123"
+}
+
+###
+
+### List songs by user_id
+GET {{baseUrl}}/users/3/songs
+Accept: application/json
+Authorization: Bearer {{authToken}}
+###
+
+### Search song by title
+GET http://localhost:8000/api/songs?search=Elso
+Accept: application/json
+
+###
+
+### Get a given amount of random songs
+GET http://localhost:8000/api/songs/random?count=2
+Accept: application/json
+
+###
+
+### Upload a song
+POST {{baseUrl}}/songs
+Accept: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="title"
+
+Ominozus
+--boundary
+Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
+Content-Type: audio/mpeg
+
+< ./3_OMINOZUS.mp3
+--boundary
+Content-Disposition: form-data; name="cover"; filename="cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary--
+
+###
+
+### Logging play
+POST {{baseUrl}}/songs/1/log-play
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "playlist_id": 2
+}
+###

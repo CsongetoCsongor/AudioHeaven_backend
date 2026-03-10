@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Playlist;
+use App\Models\Song;
 use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
@@ -12,22 +13,31 @@ class PlaylistController extends Controller
      */
     // App\Http\Controllers\PlaylistController.php
 
-    public function addSong(Request $request, $playlistId)
+    public function addSong(Request $request, $playlistId, $songId)
     {
-        $request->validate([
-            'song_id' => 'required|exists:songs,id',
-        ]);
+        $songExists = Song::where('id', $songId)->exists();
+        if (!$songExists) {
+            return response()->json(['message' => 'Song does not exists!'], 404);
+        }
 
         $playlist = Playlist::findOrFail($playlistId);
 
         if ($playlist->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Ezt a listát nem te hoztad létre!'], 403);
+            return response()->json(['message' => 'Not your playlist!'], 403);
         }
 
-        $playlist->songs()->syncWithoutDetaching([$request->song_id]);
+        $alreadyExists = $playlist->songs()->where('song_id', $songId)->exists();
+
+        if ($alreadyExists) {
+            return response()->json([
+                'message' => 'Song already added to playlist!'
+            ], 409);
+        }
+
+        $playlist->songs()->syncWithoutDetaching([$songId]);
 
         return response()->json([
-            'message' => 'Dal sikeresen hozzáadva a lejátszási listához!',
+            'message' => 'Song succesfully added to playlist!',
             'playlist' => $playlist->load('songs')
         ]);
     }
@@ -82,5 +92,27 @@ class PlaylistController extends Controller
     public function destroy(Playlist $playlist)
     {
         //
+    }
+
+    public function removeSong(Request $request, $playlistId, $songId)
+    {
+        $playlist = Playlist::findOrFail($playlistId);
+
+        if ($playlist->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not your playlist!'], 403);
+        }
+        
+        if (!$playlist->songs()->where('song_id', $songId)->exists()) {
+            return response()->json([
+                'message' => 'Song not in playlist!'
+            ], 404);
+        }
+
+        $playlist->songs()->detach($songId);
+
+        return response()->json([
+            'message' => 'Song succesfully deleted from playlist!',
+            'playlist' => $playlist->load('songs')
+        ], 200);
     }
 }

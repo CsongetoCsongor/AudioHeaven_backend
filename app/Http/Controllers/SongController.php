@@ -21,7 +21,7 @@ class SongController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where('title', 'like', '%' . $search . '%');
             })
-            ->with(['user:id,name', 'album:id,title']) // Kapcsolt adatok betöltése (opcionális, de hasznos)
+            ->with(['user:id,name', 'album:id,title'])
             ->get();
 
         return response()->json($songs, 200);
@@ -165,18 +165,15 @@ class SongController extends Controller
 
         try {
             DB::transaction(function () use ($request, $song) {
-                // 1. Plays növelése
                 $song->increment('plays');
 
-                // 2. History mentése
-                // Megpróbáljuk lekérni a bejelentkezett felhasználót (ha van token)
                 $user = auth('sanctum')->user();
                 
                 ListeningHistoryItem::create([
-                    'user_id'     => $user ? $user->id : null, // Ha nincs bejelentkezve, marad a 3-as teszt user, vagy null
+                    'user_id'     => $user ? $user->id : null, 
                     'song_id'     => $song->id,
                     'album_id'    => $song->album_id,
-                    'playlist_id' => $request->input('playlist_id'), // POST body-ból vagy query-ből
+                    'playlist_id' => $request->input('playlist_id'),
                 ]);
             });
 
@@ -216,15 +213,12 @@ class SongController extends Controller
 
     public function listByUser($id)
     {
-        // Megkeressük a felhasználót
         $user = User::find($id);
 
         if (!$user) {
             return response()->json(['message' => 'User not found!'], 404);
         }
 
-        // Lekérjük a felhasználóhoz tartozó összes zenét
-        // A 'songs' kapcsolatot már definiáltad a User modellben
         $songs = $user->songs;
 
         return response()->json($songs, 200);
