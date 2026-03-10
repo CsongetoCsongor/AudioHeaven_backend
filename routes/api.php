@@ -24,6 +24,8 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 
 Route::get('/songs', [SongController::class, 'index']);
 
+Route::get('/songs/{id}', [SongController::class, 'show']);
+
 Route::get('/albums', [AlbumController::class, 'index']);
 
 Route::get('/users', [UserController::class, 'index']);
@@ -50,6 +52,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/songs/{id}/log-play', [SongController::class, 'logPlay']);
 
     Route::post('/songs', [SongController::class, 'store']);
+
+    Route::delete('/songs/{id}', [SongController::class, 'destroy']);
 
     Route::post('/songs/{id}', [SongController::class, 'update']);
 

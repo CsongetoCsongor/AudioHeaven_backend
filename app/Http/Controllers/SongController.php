@@ -197,9 +197,15 @@ class SongController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Song $song)
+    public function show($id)
     {
-        //
+        $song = Song::with(['user:id,name', 'album:id,title'])->find($id);
+
+        if (!$song) {
+            return response()->json(['message' => 'Ez a zene nem található!'], 404);
+        }
+
+        return response()->json($song);
     }
 
     /**
@@ -241,8 +247,24 @@ class SongController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Song $song)
+    public function destroy(Request $request, $id)
     {
-        //
+
+        $song = Song::findOrFail($id);
+
+        if ($song->user_id !== auth()->id() && auth()->user()->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized!'], 403);
+        }
+
+        $audioPath = str_replace('app/public/', '', $song->stored_at);
+        Storage::disk('public')->delete($audioPath);
+
+        $coverPath = str_replace('storage/', '', $song->cover);
+        Storage::disk('public')->delete($coverPath);
+
+        $song->delete();
+
+        return response()->json(['message' => 'Song deleted succesfully!']);
     }
+    
 }
