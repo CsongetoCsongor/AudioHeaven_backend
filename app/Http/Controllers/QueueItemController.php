@@ -82,31 +82,27 @@ class QueueItemController extends Controller
         $newPos = (int)$newPosition;
 
         if ($oldPos === $newPos) {
-            return response()->json(['message' => 'A pozíció nem változott.']);
+            return response()->json(['message' => 'Position did not change!']);
         }
 
-        // 1. Megkeressük az áthelyezni kívánt elemet
         $item = QueueItem::where('user_id', $userId)
             ->where('position', $oldPos)
             ->first();
 
         if (!$item) {
-            return response()->json(['message' => 'Nem található elem a megadott eredeti pozíción!'], 404);
+            return response()->json(['message' => 'Queue item not found in old position!'], 404);
         }
 
-        // 2. Max pozíció ellenőrzése a biztonság kedvéért
         $maxPos = QueueItem::where('user_id', $userId)->max('position');
         if ($newPos > $maxPos) $newPos = $maxPos;
         if ($newPos < 1) $newPos = 1;
 
         DB::transaction(function () use ($userId, $item, $oldPos, $newPos) {
             if ($newPos < $oldPos) {
-                // Előrébb mozgatás (pl. 5 -> 2): a 2, 3, 4 pozíciójúak +1-et kapnak
                 QueueItem::where('user_id', $userId)
                     ->whereBetween('position', [$newPos, $oldPos - 1])
                     ->increment('position');
             } else {
-                // Hátrébb mozgatás (pl. 2 -> 5): a 3, 4, 5 pozíciójúak -1-et kapnak
                 QueueItem::where('user_id', $userId)
                     ->whereBetween('position', [$oldPos + 1, $newPos])
                     ->decrement('position');
@@ -117,7 +113,7 @@ class QueueItemController extends Controller
         });
 
         return response()->json([
-            'message' => "Sikeresen áthelyezve {$oldPos} -> {$newPos} pozícióba.",
+            'message' => "Succesfully updated queue item from position: {$oldPos} to position: {$newPos}!",
             'queue' => QueueItem::with('song')->where('user_id', $userId)->orderBy('position', 'asc')->get()
         ]);
     }
@@ -134,36 +130,33 @@ class QueueItemController extends Controller
     {
         $userId = auth()->id();
         
-        // 1. Megkeressük az elemet a pozíció és a user_id alapján
         $item = QueueItem::where('user_id', $userId)
             ->where('position', $position)
             ->first();
 
         if (!$item) {
-            return response()->json(['message' => 'Nincs elem ezen a pozíción!'], 404);
+            return response()->json(['message' => 'Queue item not found in given position'], 404);
         }
 
         DB::transaction(function () use ($userId, $position, $item) {
-            // 2. Töröljük az elemet
             $item->delete();
 
-            // 3. Minden utána lévő elemet eggyel előrébb hozunk (csak az adott usernél)
             QueueItem::where('user_id', $userId)
                 ->where('position', '>', $position)
                 ->decrement('position');
         });
 
-        return response()->json(['message' => "A(z) {$position}. pozíciójú elem törölve, a sorrend frissítve."]);
+        return response()->json(['message' => "Succesfully deleted queue item from position {$position}!"]);
     }
 
     public function clear()
     {
         $userId = auth()->id();
-        
+
         QueueItem::where('user_id', $userId)->delete();
 
         return response()->json([
-            'message' => 'A várólista sikeresen kiürítve!'
+            'message' => 'Queue cleared succesfully!'
         ], 200);
     }
 }

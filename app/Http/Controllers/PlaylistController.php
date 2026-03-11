@@ -58,7 +58,6 @@ class PlaylistController extends Controller
             'title' => 'required|string|max:255',
         ]);
 
-        // 2. Létrehozás (a bejelentkezett felhasználóhoz kötve)
         $playlist = Playlist::create([
             'title' => $fields['title'],
             'user_id' => $request->user()->id,

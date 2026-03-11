@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\QueueItemController;
+use App\Http\Controllers\ListeningHistoryItemController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -73,6 +74,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/queue/move/{oldPosition}/to/{newPosition}', [QueueItemController::class, 'updatePositionByPositions']);
 
     Route::delete('/queue/clear', [QueueItemController::class, 'clear']);
+
+    Route::get('/history', [ListeningHistoryItemController::class, 'index']);
 
     Route::get('/me', [UserController::class, 'me']);
 });

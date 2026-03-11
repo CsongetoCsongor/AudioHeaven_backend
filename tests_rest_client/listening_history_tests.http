@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### Login
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt2@example.com",
+    "password": "password123"
+}
+
+###
+
+### Get users history's first page
+GET http://localhost:8000/api/history
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Get users history's second page
+GET http://localhost:8000/api/history?page=2
+Authorization: Bearer {{authToken}}
+Accept: application/json
