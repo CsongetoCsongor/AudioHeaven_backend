@@ -63,7 +63,7 @@ class AlbumController extends Controller
 
                 $album = Album::create([
                     'title' => $request->title,
-                    'album_cover' => 'app/public/' . $albumCoverPath,
+                    'album_cover' => 'storage/' . $albumCoverPath,
                     'user_id' => $request->user()->id,
                 ]);
 
