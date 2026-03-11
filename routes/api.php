@@ -7,6 +7,7 @@ use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\QueueItemController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -61,6 +62,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users/{id}/songs', [SongController::class, 'listByUser']);
 
+    Route::get('/queue', [QueueItemController::class, 'index']);
+
+    Route::post('/queue/{songId}', [QueueItemController::class, 'store']);
+
+    Route::get('/queue/position/{position}', [QueueItemController::class, 'showByPosition']);
+
+    Route::delete('/queue/position/{position}', [QueueItemController::class, 'destroyByPosition']);
+
+    Route::patch('/queue/move/{oldPosition}/to/{newPosition}', [QueueItemController::class, 'updatePositionByPositions']);
+
+    Route::delete('/queue/clear', [QueueItemController::class, 'clear']);
 
     Route::get('/me', [UserController::class, 'me']);
 });

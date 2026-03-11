@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:8000/api
+@authToken = {{login.response.body.token}}
+
+### Login
+# @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "teszt@example.com",
+    "password": "password123"
+}
+
+###
+
+### Get users queu (Ordered by position (incrementing))
+GET http://localhost:8000/api/queue
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Add song to queue
+POST http://localhost:8000/api/queue/2
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Get queue item basod on position
+GET http://localhost:8000/api/queue/position/2
+Authorization: Bearer {{authToken}}
+
+### Move queue item by position
+PATCH http://localhost:8000/api/queue/move/2/to/5
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Delete by position
+DELETE http://localhost:8000/api/queue/position/1
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+### Clear my queue
+DELETE http://localhost:8000/api/queue/clear
+Authorization: Bearer {{authToken}}
+Accept: application/json
