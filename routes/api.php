@@ -24,13 +24,13 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 
 Route::get('/songs', [SongController::class, 'index']);
 
+Route::get('/songs/random', [SongController::class, 'random']);
+
 Route::get('/songs/{id}', [SongController::class, 'show']);
 
 Route::get('/albums', [AlbumController::class, 'index']);
 
 Route::get('/users', [UserController::class, 'index']);
-
-Route::get('/songs/random', [SongController::class, 'random']);
 
 Route::get('/albums/random', [AlbumController::class, 'random']);
 
