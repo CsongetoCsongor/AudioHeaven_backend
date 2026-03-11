@@ -35,7 +35,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Teszt Album 14
+Elek albumja
 --boundary
 Content-Disposition: form-data; name="album_cover"; filename="album_cover.jpg"
 Content-Type: image/jpeg
