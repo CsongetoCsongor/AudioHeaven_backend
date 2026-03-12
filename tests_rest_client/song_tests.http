@@ -93,7 +93,7 @@ Accept: application/json
 ###
 
 ### Zene törlése (Saját vagy Admin)
-DELETE http://localhost:8000/api/songs/1
+DELETE http://localhost:8000/api/songs/12
 Authorization: Bearer {{authToken}}
 Accept: application/json
 

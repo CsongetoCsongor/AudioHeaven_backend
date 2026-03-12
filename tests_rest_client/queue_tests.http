@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ###
 
-### Get users queu (Ordered by position (incrementing))
+### Get users queue (Ordered by position (incrementing))
 GET http://localhost:8000/api/queue
 Authorization: Bearer {{authToken}}
 Accept: application/json
@@ -34,7 +34,7 @@ Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Delete by position
-DELETE http://localhost:8000/api/queue/position/1
+DELETE http://localhost:8000/api/queue/position/3
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
