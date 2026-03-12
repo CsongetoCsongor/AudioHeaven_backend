@@ -15,7 +15,7 @@ Content-Type: application/json
 ###
 
 ### Search album by title or user(artist)
-GET http://localhost:8000/api/albums?search=4
+GET http://localhost:8000/api/albums
 Accept: application/json
 
 ###
@@ -35,7 +35,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Elek albumja
+Elek albumja második felvonás
 --boundary
 Content-Disposition: form-data; name="album_cover"; filename="album_cover.jpg"
 Content-Type: image/jpeg
@@ -44,7 +44,7 @@ Content-Type: image/jpeg
 --boundary
 Content-Disposition: form-data; name="songs[0][title]"
 
-Elso Szam
+Elso Szam1
 --boundary
 Content-Disposition: form-data; name="songs[0][audio]"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
@@ -53,7 +53,7 @@ Content-Type: audio/mpeg
 --boundary
 Content-Disposition: form-data; name="songs[1][title]"
 
-Masodik Szam
+Masodik Szam2
 --boundary
 Content-Disposition: form-data; name="songs[1][audio]"; filename="3_OMINOZUS2.mp3"
 Content-Type: audio/mpeg
@@ -62,7 +62,7 @@ Content-Type: audio/mpeg
 --boundary
 Content-Disposition: form-data; name="songs[2][title]"
 
-Harmadik Szam
+Harmadik Szam3
 --boundary
 Content-Disposition: form-data; name="songs[2][audio]"; filename="3_OMINOZUS2.mp3"
 Content-Type: audio/mpeg

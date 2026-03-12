@@ -202,7 +202,7 @@ class SongController extends Controller
         $song = Song::with(['user:id,name', 'album:id,title'])->find($id);
 
         if (!$song) {
-            return response()->json(['message' => 'Ez a zene nem található!'], 404);
+            return response()->json(['message' => 'Song not found!'], 404);
         }
 
         return response()->json($song);

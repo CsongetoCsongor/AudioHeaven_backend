@@ -37,7 +37,6 @@ class AlbumController extends Controller
         $albums = Album::inRandomOrder()
             ->limit($count)
             ->with('user:id,name')
-            ->withCount('songs')
             ->get();
 
         return response()->json($albums);
@@ -83,7 +82,7 @@ class AlbumController extends Controller
                 return response()->json($album->load('songs'), 201);
             });
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Hiba történt a feltöltés során!', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Error happaned during the uploading!', 'error' => $e->getMessage()], 500);
         }
     }
 

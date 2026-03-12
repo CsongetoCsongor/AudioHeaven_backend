@@ -8,7 +8,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "teszt2@example.com",
+    "email": "teszt@example.com",
     "password": "password123"
 }
 
@@ -28,7 +28,7 @@ Accept: application/json
 ###
 
 ### Delete user profile by admin
-DELETE http://localhost:8000/api/admin/users/2
+DELETE http://localhost:8000/api/admin/users/7
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
@@ -42,13 +42,13 @@ Authorization: Bearer {{authToken}}
 ###
 
 ### Search users
-GET http://localhost:8000/api/users?search=b
+GET http://localhost:8000/api/users?search=Teszt
 Accept: application/json
 
 ###
 
 ### Get a given amount of random users
-GET http://localhost:8000/api/users/random?count=10
+GET http://localhost:8000/api/users/random?count=2
 Accept: application/json
 
 ###

@@ -33,13 +33,13 @@ Accept: application/json
 ###
 
 ### Add song to playlist
-POST http://localhost:8000/api/playlists/2/songs/1
+POST http://localhost:8000/api/playlists/4/songs/3
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ###
 
 ### Delete song from playlist
-DELETE http://localhost:8000/api/playlists/2/songs/1
+DELETE http://localhost:8000/api/playlists/4/songs/3
 Authorization: Bearer {{authToken}}
 Accept: application/json
