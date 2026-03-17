@@ -89,9 +89,21 @@ class AlbumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Album $album)
+
+    public function show($id) 
     {
-        //
+
+        $album = Album::findOrFail($id);
+        
+        return response()->json([
+            'id' => $album->id,
+            'title' => $album->title,
+            'album_cover' => $album->album_cover,
+            'user_id' => $album->user_id,
+            'user' => $album->user()->select('id', 'name')->first(),
+            'created_at' => $album->created_at,
+            'songs' => $album->songs()->with('user:id,name')->get(),
+        ], 200);
     }
 
     /**

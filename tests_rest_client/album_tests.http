@@ -14,6 +14,12 @@ Content-Type: application/json
 
 ###
 
+### 1. Search album by id
+GET http://localhost:8000/api/albums/1
+Accept: application/json
+
+###
+
 ### Search album by title or user(artist)
 GET http://localhost:8000/api/albums
 Accept: application/json

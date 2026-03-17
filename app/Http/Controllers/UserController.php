@@ -41,7 +41,9 @@ class UserController extends Controller
             'name' => $user->name,
             'profile_picture' => $user->profile_picture,
             'email' => $user->email,
-            'created_at' => $user->created_at
+            'created_at' => $user->created_at,
+            'songs' => $user->songs()->with('user')->get(),
+            'albums' => $user->albums()->with('user')->get()
         ], 200);
     }
 

@@ -32,6 +32,11 @@ Authorization: Bearer {{authToken}}
 Accept: application/json
 ###
 
+### Egy konkrét lejátszási lista lekérése
+GET http://localhost:8000/api/playlists/2
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
 ### Add song to playlist
 POST http://localhost:8000/api/playlists/4/songs/3
 Authorization: Bearer {{authToken}}

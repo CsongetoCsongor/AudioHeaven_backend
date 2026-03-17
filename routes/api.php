@@ -32,10 +32,11 @@ Route::get('/songs/{id}', [SongController::class, 'show']);
 
 Route::get('/albums', [AlbumController::class, 'index']);
 
-Route::get('/users', [UserController::class, 'index']);
-
 Route::get('/albums/random', [AlbumController::class, 'random']);
 
+Route::get('/users', [UserController::class, 'index']);
+
+Route::get('/albums/{id}', [AlbumController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -46,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/playlists', [PlaylistController::class, 'index']);
 
     Route::post('/playlists', [PlaylistController::class, 'store']);
+
+    Route::get('/playlists/{id}', [PlaylistController::class, 'show']);
 
     Route::post('/playlists/{id}/songs/{songId}', [PlaylistController::class, 'addSong']);
 

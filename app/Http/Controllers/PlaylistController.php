@@ -44,7 +44,7 @@ class PlaylistController extends Controller
 
     public function index(Request $request)
     {
-        $playlists = $request->user()->playlists()->get();
+        $playlists = $request->user()->playlists()->with('songs')->get();
 
         return response()->json($playlists, 200);
     }
@@ -72,9 +72,40 @@ class PlaylistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Playlist $playlist)
+    // App\Http\Controllers\PlaylistController.php
+
+public function show($id)
     {
-        //
+        // 1. Betöltjük a playlistet
+        // 2. Betöltjük a tulajdonost (user)
+        // 3. Betöltjük a dalokat (songs)
+        // 4. A dalokon BELÜL betöltjük a feltöltőt (user) ÉS az albumot (album) is
+        $playlist = Playlist::with([
+            'user:id,name', 
+            'songs.user:id,name',
+            'songs.album:id,title' // EZ AZ ÚJ SOR: betölti a dalhoz tartozó albumot
+        ])->findOrFail($id);
+
+        return response()->json([
+            'id' => $playlist->id,
+            'title' => $playlist->title,
+            'description' => $playlist->description,
+            'user_id' => $playlist->user_id,
+            'creator_name' => $playlist->user->name,
+            'created_at' => $playlist->created_at,
+            'songs' => $playlist->songs->map(function ($song) {
+                return [
+                    'id' => $song->id,
+                    'title' => $song->title,
+                    'duration' => $song->duration, // ha van ilyen meződ
+                    'cover' => $song->cover,
+                    'stored_at' => $song->stored_at,
+                    'user' => $song->user, // feltöltő adatai
+                    'album' => $song->album ? $song->album->title : 'Nincs album', // album neve
+                    'album_id' => $song->album_id,
+                ];
+            })
+        ], 200);
     }
 
     /**

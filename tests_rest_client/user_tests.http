@@ -15,7 +15,7 @@ Content-Type: application/json
 ###
 
 ### Get user by id
-GET {{baseUrl}}/users/1
+GET {{baseUrl}}/users/2
 Accept: application/json
 
 ###
