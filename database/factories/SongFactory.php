@@ -20,7 +20,7 @@ class SongFactory extends Factory
             'title' => fake()->words(3, true),
             'plays' => fake()->numberBetween(0, 1000),
             'length' => fake()->numberBetween(120, 300),
-            'stored_at' => 'storage/defaults/default_song.mp3',
+            'stored_at' => 'app/public/defaults/default_song.mp3',
             'cover' => 'storage/defaults/default_song_cover.jpg',
             'user_id' => \App\Models\User::factory(),
             'album_id' => null,
