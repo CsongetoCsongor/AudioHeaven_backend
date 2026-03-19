@@ -59,11 +59,6 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        // return response()->json([
-        //     'detected_mime' => $request->file('audio')->getMimeType(),
-        //     'client_mime' => $request->file('audio')->getClientMimeType(),
-        //     'extension' => $request->file('audio')->getClientOriginalExtension()
-        // ]);
 
         $fields = $request->validate([
             'title' => 'required|string|max:255',
@@ -72,12 +67,21 @@ class SongController extends Controller
             'album_id' => 'nullable|exists:albums,id'
         ]);
 
-        $audioPath = $request->file('audio')->store('songs', 'public');
+        $audioFile = $request->file('audio');
+        $audioPath = $audioFile->store('songs', 'public');
         $coverPath = $request->file('cover')->store('covers', 'public');
+
+        $getID3 = new \getID3;
+        $fileInfo = $getID3->analyze($audioFile->getRealPath());
+
+        $duration = isset($fileInfo['playtime_seconds']) 
+                ? (int)round($fileInfo['playtime_seconds']) 
+                : 0;
 
         $song = Song::create([
             'title' => $fields['title'],
             'plays' => 0,
+            'length' => $duration,
             'stored_at' => 'app/public/' . $audioPath,
             'cover' => 'storage/' . $coverPath,
             'user_id' => $request->user()->id,

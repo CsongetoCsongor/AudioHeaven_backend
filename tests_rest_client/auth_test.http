@@ -10,21 +10,21 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek5
+Teszt Elek
 --boundary
 Content-Disposition: form-data; name="email"
 
-teszt5@example.com
+teszt@example.com
 --boundary
 Content-Disposition: form-data; name="password"
 
 password123
-# --boundary
-# Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
-# Content-Type: image/png
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
+Content-Type: image/png
 
-# < ./pfp.jpg
-# --boundary--
+< ./pfp.jpg
+--boundary--
 
 ###
 
@@ -35,7 +35,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "teszt3@example.com",
+    "email": "teszt@example.com",
     "password": "password123"
 }
 

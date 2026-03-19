@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->integer('plays')->default(0);
-            $table->string('stored_at'); // Az elérési út a tárhelyen
+            $table->integer('length');
+            $table->string('stored_at');
             $table->string('cover');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('album_id')->nullable()->constrained()->onDelete('set null');

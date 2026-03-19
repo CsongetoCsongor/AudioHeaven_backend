@@ -17,6 +17,6 @@ php artisan migrate:fresh
 php artisan storage:link
 
 php.ini:
-upload_max_filesize = 10M
-post_max_size = 12M
+upload_max_filesize = 100M
+post_max_size = 120M
 memory_limit = 256M
