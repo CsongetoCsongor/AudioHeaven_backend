@@ -9,6 +9,8 @@ use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\QueueItemController;
 use App\Http\Controllers\ListeningHistoryItemController;
+use App\Http\Controllers\VerifyEmailController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -16,6 +18,15 @@ use App\Http\Controllers\ListeningHistoryItemController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+    ->middleware(['signed'])
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
+    ->middleware(['auth:sanctum', 'throttle:6,1'])
+    ->name('verification.send');
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/play/{id}', [SongController::class, 'play']);

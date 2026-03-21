@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -30,6 +31,8 @@ class AuthController extends Controller
             'password' => Hash::make($fields['password']),
             'profile_picture' => 'storage/' . $path
         ]);
+
+        event(new Registered($user));
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
