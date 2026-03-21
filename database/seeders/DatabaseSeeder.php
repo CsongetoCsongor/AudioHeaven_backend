@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         Song::factory(3)->create([
             'user_id' => $user->id,
             'album_id' => $album->id,
-            'cover' => 'storage/defaults/default_album_cover.jpg', // Fix borítókép az album zenéinek
+            'cover' => 'storage/defaults/default_album_cover.png', // Fix borítókép az album zenéinek
         ]);
 
         // 4. Minden usernek csinálunk egy Playlistet is
@@ -82,6 +82,6 @@ class DatabaseSeeder extends Seeder
                 'position' => $index + 1
             ]);
         }
-    
+
     }
 }
