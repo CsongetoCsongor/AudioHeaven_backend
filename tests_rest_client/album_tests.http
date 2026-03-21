@@ -26,6 +26,12 @@ Accept: application/json
 
 ###
 
+### Get album by user_id
+GET {{baseUrl}}/users/4/albums
+Accept: application/json
+
+###
+
 ### Get a given amount of random albums
 GET http://localhost:8000/api/albums/random?count=3
 Accept: application/json

@@ -38,6 +38,10 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/albums/{id}', [AlbumController::class, 'show']);
 
+Route::get('/users/{id}/songs', [SongController::class, 'listByUser']);
+
+Route::get('/users/{id}/albums', [AlbumController::class, 'listByUser']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/user', [UserController::class, 'destroy']);
@@ -64,7 +68,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/albums', [AlbumController::class, 'store']);
 
-    Route::get('/users/{id}/songs', [SongController::class, 'listByUser']);
 
     Route::get('/queue', [QueueItemController::class, 'index']);
 
