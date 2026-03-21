@@ -67,12 +67,21 @@ class AlbumController extends Controller
                 ]);
 
                 foreach ($request->file('songs') as $index => $songData) {
+                    $audioFile = $songData['audio'];
                     $songTitle = $request->input("songs.$index.title");
-                    $audioPath = $songData['audio']->store('songs', 'public');
+                    $audioPath = $audioFile->store('songs', 'public');
+
+                    $getID3 = new \getID3;
+                    $fileInfo = $getID3->analyze($audioFile->getRealPath());
+
+                    $duration = isset($fileInfo['playtime_seconds'])
+                            ? (int)round($fileInfo['playtime_seconds'])
+                            : 0;
 
                     $album->songs()->create([
                         'title' => $songTitle,
                         'plays' => 0,
+                        'length' => $duration,
                         'stored_at' => 'app/public/' . $audioPath,
                         'cover' => 'storage/' . $albumCoverPath,
                         'user_id' => $request->user()->id,
@@ -90,11 +99,11 @@ class AlbumController extends Controller
      * Display the specified resource.
      */
 
-    public function show($id) 
+    public function show($id)
     {
 
         $album = Album::findOrFail($id);
-        
+
         return response()->json([
             'id' => $album->id,
             'title' => $album->title,
