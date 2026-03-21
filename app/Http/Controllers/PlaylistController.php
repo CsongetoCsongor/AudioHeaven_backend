@@ -81,30 +81,17 @@ public function show($id)
         // 3. Betöltjük a dalokat (songs)
         // 4. A dalokon BELÜL betöltjük a feltöltőt (user) ÉS az albumot (album) is
         $playlist = Playlist::with([
-            'user:id,name', 
+            'user:id,name',
             'songs.user:id,name',
-            'songs.album:id,title' // EZ AZ ÚJ SOR: betölti a dalhoz tartozó albumot
+            'songs.album:id,title'
         ])->findOrFail($id);
 
         return response()->json([
             'id' => $playlist->id,
             'title' => $playlist->title,
-            'description' => $playlist->description,
-            'user_id' => $playlist->user_id,
-            'creator_name' => $playlist->user->name,
+            'user' => $playlist->user,
             'created_at' => $playlist->created_at,
-            'songs' => $playlist->songs->map(function ($song) {
-                return [
-                    'id' => $song->id,
-                    'title' => $song->title,
-                    'duration' => $song->duration, // ha van ilyen meződ
-                    'cover' => $song->cover,
-                    'stored_at' => $song->stored_at,
-                    'user' => $song->user, // feltöltő adatai
-                    'album' => $song->album ? $song->album->title : 'Nincs album', // album neve
-                    'album_id' => $song->album_id,
-                ];
-            })
+            'songs' => $playlist->songs
         ], 200);
     }
 
@@ -131,7 +118,7 @@ public function show($id)
         if ($playlist->user_id !== auth()->id()) {
             return response()->json(['message' => 'Not your playlist!'], 403);
         }
-        
+
         if (!$playlist->songs()->where('song_id', $songId)->exists()) {
             return response()->json([
                 'message' => 'Song not in playlist!'
