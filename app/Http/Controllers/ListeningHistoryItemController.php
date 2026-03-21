@@ -12,7 +12,7 @@ class ListeningHistoryItemController extends Controller
      */
     public function index()
     {
-        $history = ListeningHistoryItem::with(['song', 'album', 'playlist'])
+        $history = ListeningHistoryItem::with(['song.user:id,name', 'album', 'playlist'])
             ->where('user_id', auth()->id())
             ->latest()
             ->paginate(10);

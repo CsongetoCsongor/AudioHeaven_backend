@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "email": "teszt@example.com",
-    "password": "password123"
+    "password": "password"
 }
 
 ###
@@ -62,9 +62,9 @@ Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: application/json
 
-{
-    "playlist_id": 2
-}
+# {
+#     "playlist_id": 2
+# }
 ###
 
 ### Modify song
