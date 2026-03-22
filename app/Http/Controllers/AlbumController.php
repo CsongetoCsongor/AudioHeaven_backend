@@ -39,7 +39,7 @@ class AlbumController extends Controller
             return response()->json(['message' => 'User not found!'], 404);
         }
 
-        $albums = Album::with('songs')->where('user_id', $user->id)->get();
+        $albums = Album::with('user:id,name', 'songs')->where('user_id', $id)->get();
         // $albums = $user->albums;
 
         return response()->json($albums, 200);
