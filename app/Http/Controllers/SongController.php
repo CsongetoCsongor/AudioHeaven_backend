@@ -42,6 +42,14 @@ class SongController extends Controller
         return response()->json($songs, 200);
     }
 
+    public function getNewSongs(Request $request) {
+        $count = $request->query('count', 10);
+
+        $songs = Song::with('user:id,name')->orderBy('created_at', 'desc')->limit($count)->get();
+
+        return response()->json($songs);
+    }
+
     public function random(Request $request)
     {
 

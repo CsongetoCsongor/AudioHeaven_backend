@@ -26,6 +26,12 @@ Accept: application/json
 
 ###
 
+### Get a given amount of new songs
+GET http://localhost:8000/api/songs/new?count=5
+Accept: application/json
+
+###
+
 ### Get a given amount of random songs
 GET http://localhost:8000/api/songs/random?count=2
 Accept: application/json

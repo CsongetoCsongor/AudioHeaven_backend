@@ -39,6 +39,8 @@ Route::get('/songs', [SongController::class, 'index']);
 
 Route::get('/songs/random', [SongController::class, 'random']);
 
+Route::get('/songs/new', [SongController::class, 'getNewSongs']);
+
 Route::get('/songs/{id}', [SongController::class, 'show']);
 
 Route::get('/albums', [AlbumController::class, 'index']);
