@@ -8,8 +8,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "csongeto.csongor@students.jedlik.eu",
-    "password": "password123"
+    "email": "teszt@example.com",
+    "password": "password"
 }
 
 ###
@@ -74,7 +74,7 @@ Content-Type: application/json
 ###
 
 ### Modify song
-POST http://localhost:8000/api/songs/2
+POST http://localhost:8000/api/songs/21
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: multipart/form-data; boundary=boundary

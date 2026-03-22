@@ -241,6 +241,10 @@ class SongController extends Controller
             $song->title = $fields['title'];
         }
 
+        if ($request->hasFile('cover') && $song->album_id != null) {
+            return response()->json(['message' => 'Cant update song cover, song is in an album!'], 400);
+        }
+
         if ($request->hasFile('cover')) {
             $oldCoverPath = str_replace('storage/', '', $song->cover);
             Storage::disk('public')->delete($oldCoverPath);
@@ -265,7 +269,7 @@ class SongController extends Controller
 
         $song = Song::findOrFail($id);
 
-        if ($song->user_id !== auth()->id() && auth()->user()->role !== 'admin') {
+        if ($song->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized!'], 403);
         }
 
