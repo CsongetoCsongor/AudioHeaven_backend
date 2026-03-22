@@ -87,8 +87,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/albums', [AlbumController::class, 'store']);
 
-
     Route::get('/queue', [QueueItemController::class, 'index']);
+
+    Route::post('/queue/store-many', [QueueItemController::class, 'storeMany']);
 
     Route::post('/queue/{songId}', [QueueItemController::class, 'store']);
 

@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "email": "teszt@example.com",
-    "password": "password123"
+    "password": "password"
 }
 
 ###
@@ -23,6 +23,16 @@ Accept: application/json
 POST http://localhost:8000/api/queue/2
 Authorization: Bearer {{authToken}}
 Accept: application/json
+
+### Add a chosen amount of songs to queue
+POST {{baseUrl}}/queue/store-many
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "song_ids": [1, 2, 5, 10]
+}
 
 ### Get queue item basod on position
 GET http://localhost:8000/api/queue/position/2
