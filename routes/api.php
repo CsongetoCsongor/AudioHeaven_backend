@@ -65,11 +65,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/playlists', [PlaylistController::class, 'store']);
 
+
     Route::get('/playlists/{id}', [PlaylistController::class, 'show']);
+
 
     Route::post('/playlists/{id}/songs/{songId}', [PlaylistController::class, 'addSong']);
 
     Route::delete('/playlists/{id}/songs/{songId}', [PlaylistController::class, 'removeSong']);
+
+    Route::delete('/playlists/{id}', [PlaylistController::class, 'destroy']);
 
     Route::post('/songs/{id}/log-play', [SongController::class, 'logPlay']);
 

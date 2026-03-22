@@ -8,8 +8,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "teszt@example.com",
-    "password": "password"
+    "email": "csongeto.csongor@students.jedlik.eu",
+    "password": "password123"
 }
 
 ###
@@ -21,7 +21,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "title": "Legjobb zenék"
+    "title": "Legjobb zenékcscs"
 }
 
 ###
@@ -38,7 +38,14 @@ Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Add song to playlist
-POST http://localhost:8000/api/playlists/4/songs/3
+POST http://localhost:8000/api/playlists/8/songs/4
+Authorization: Bearer {{authToken}}
+Accept: application/json
+
+###
+
+### Delete playlist
+DELETE http://localhost:8000/api/playlists/8
 Authorization: Bearer {{authToken}}
 Accept: application/json
 

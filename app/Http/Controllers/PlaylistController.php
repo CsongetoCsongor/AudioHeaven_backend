@@ -106,9 +106,17 @@ public function show($id)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Playlist $playlist)
+    public function destroy(Request $request, $id)
     {
-        //
+        $playlist = Playlist::findOrFail($id);
+
+        if ($playlist->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized!'], 403);
+        }
+
+        $playlist->delete();
+
+        return response()->json(['message' => 'Playlist deleted succesfully!']);
     }
 
     public function removeSong(Request $request, $playlistId, $songId)
