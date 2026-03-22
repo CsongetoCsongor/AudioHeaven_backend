@@ -37,7 +37,7 @@ class PlaylistController extends Controller
         $playlist->songs()->syncWithoutDetaching([$songId]);
 
         return response()->json([
-            'message' => 'Song succesfully added to playlist!',
+            'message' => 'Song successfully added to playlist!',
             'playlist' => $playlist->load('songs')
         ]);
     }
@@ -76,10 +76,6 @@ class PlaylistController extends Controller
 
 public function show($id)
     {
-        // 1. Betöltjük a playlistet
-        // 2. Betöltjük a tulajdonost (user)
-        // 3. Betöltjük a dalokat (songs)
-        // 4. A dalokon BELÜL betöltjük a feltöltőt (user) ÉS az albumot (album) is
         $playlist = Playlist::with([
             'user:id,name',
             'songs.user:id,name',
@@ -116,7 +112,7 @@ public function show($id)
 
         $playlist->delete();
 
-        return response()->json(['message' => 'Playlist deleted succesfully!']);
+        return response()->json(['message' => 'Playlist deleted successfully!']);
     }
 
     public function removeSong(Request $request, $playlistId, $songId)
@@ -136,7 +132,7 @@ public function show($id)
         $playlist->songs()->detach($songId);
 
         return response()->json([
-            'message' => 'Song succesfully deleted from playlist!',
+            'message' => 'Song successfully deleted from playlist!',
             'playlist' => $playlist->load('songs')
         ], 200);
     }

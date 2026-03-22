@@ -98,7 +98,7 @@ class SongController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Song uploaded succesfully!',
+            'message' => 'Song uploaded successfully!',
             'song' => $song
         ], 201);
     }
@@ -281,7 +281,7 @@ class SongController extends Controller
 
         $song->delete();
 
-        return response()->json(['message' => 'Song deleted succesfully!']);
+        return response()->json(['message' => 'Song deleted successfully!']);
     }
 
 }

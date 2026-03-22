@@ -51,7 +51,6 @@ class QueueItemController extends Controller
 
     public function storeMany(Request $request)
 {
-    // 1. Validáljuk, hogy egy 'song_ids' tömböt kaptunk-e, és léteznek-e a dalok
     $fields = $request->validate([
         'song_ids' => 'required|array',
         'song_ids.*' => 'exists:songs,id'
@@ -59,13 +58,11 @@ class QueueItemController extends Controller
 
     $userId = auth()->id();
 
-    // 2. Megkeressük az aktuális legmagasabb pozíciót
     $currentMaxPosition = QueueItem::where('user_id', $userId)->max('position') ?? 0;
 
     $newItems = [];
-    $now = now(); // A timestamps miatt
+    $now = now();
 
-    // 3. Előkészítjük a tömböt a tömeges mentéshez
     foreach ($fields['song_ids'] as $index => $songId) {
         $newItems[] = [
             'user_id' => $userId,
@@ -76,7 +73,6 @@ class QueueItemController extends Controller
         ];
     }
 
-    // 4. Tömeges beszúrás (sokkal gyorsabb, mint ciklusban create-elni)
     QueueItem::insert($newItems);
 
     return response()->json([
@@ -148,7 +144,7 @@ class QueueItemController extends Controller
         });
 
         return response()->json([
-            'message' => "Succesfully updated queue item from position: {$oldPos} to position: {$newPos}!",
+            'message' => "Successfully updated queue item from position: {$oldPos} to position: {$newPos}!",
             'queue' => QueueItem::with('song')->where('user_id', $userId)->orderBy('position', 'asc')->get()
         ]);
     }
