@@ -36,14 +36,15 @@ class SongController extends Controller
             return response()->json(['message' => 'User not found!'], 404);
         }
 
-        $songs = $user->songs;
+        // $songs = $user->songs;
+        $songs = Song::with('user:id,name')->where('user_id', $id)->get();
 
         return response()->json($songs, 200);
     }
 
     public function random(Request $request)
     {
-        
+
         $count = $request->query('count', 10);
 
         $songs = Song::inRandomOrder()
@@ -74,8 +75,8 @@ class SongController extends Controller
         $getID3 = new \getID3;
         $fileInfo = $getID3->analyze($audioFile->getRealPath());
 
-        $duration = isset($fileInfo['playtime_seconds']) 
-                ? (int)round($fileInfo['playtime_seconds']) 
+        $duration = isset($fileInfo['playtime_seconds'])
+                ? (int)round($fileInfo['playtime_seconds'])
                 : 0;
 
         $song = Song::create([
@@ -115,7 +116,7 @@ class SongController extends Controller
         $start = 0;
         $end = $size - 1;
 
-        
+
 
         $headers = [
             'Content-Type' => 'audio/mpeg',
@@ -179,9 +180,9 @@ class SongController extends Controller
                 $song->increment('plays');
 
                 $user = auth('sanctum')->user();
-                
+
                 ListeningHistoryItem::create([
-                    'user_id'     => $user ? $user->id : null, 
+                    'user_id'     => $user ? $user->id : null,
                     'song_id'     => $song->id,
                     'album_id'    => $song->album_id,
                     'playlist_id' => $request->input('playlist_id'),
@@ -270,5 +271,5 @@ class SongController extends Controller
 
         return response()->json(['message' => 'Song deleted succesfully!']);
     }
-    
+
 }
