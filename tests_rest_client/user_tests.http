@@ -8,8 +8,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "csongeto.csongor@students.jedlik.eu",
-    "password": "password123"
+    "email": "teszt@example.com",
+    "password": "password"
 }
 
 ###
@@ -50,5 +50,20 @@ Accept: application/json
 ### Get a given amount of random users
 GET http://localhost:8000/api/users/random?count=2
 Accept: application/json
+
+###
+
+### Modify user
+POST http://localhost:8000/api/user
+Authorization: Bearer {{authToken}}
+Accept: application/json
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
+Content-Type: image/jpeg
+
+< ./pfp.jpg
+--boundary--
 
 ###

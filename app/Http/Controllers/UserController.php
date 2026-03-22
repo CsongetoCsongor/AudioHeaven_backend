@@ -15,7 +15,7 @@ class UserController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })
-            ->select('id', 'name', 'profile_picture') 
+            ->select('id', 'name', 'profile_picture')
             ->get();
 
         return response()->json($users, 200);
@@ -51,6 +51,29 @@ class UserController extends Controller
         return $request->user();
     }
 
+    public function update(Request $request) {
+        $user = $request->user();
+
+        $fields = $request->validate([
+            'profile_picture' => 'required|image|mimes:jpg,jpeg,png|max:10000',
+        ]);
+
+        if ($request->hasFile('profile_picture')) {
+            // $oldPfpPath = str_replace('storage/', '', $user->profile_picture);
+            // Storage::disk('public')->delete($oldPfpPath);
+
+            $newPfpPath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $user->profile_picture = 'storage/' . $newPfpPath;
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'User updated successfully!',
+            'user' => $user
+        ]);
+    }
+
     public function destroy(Request $request)
     {
         $user = $request->user();
@@ -61,7 +84,7 @@ class UserController extends Controller
         }
 
         $user->delete();
-        
+
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([

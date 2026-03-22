@@ -59,6 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/user', [UserController::class, 'destroy']);
 
+    Route::post('/user', [UserController::class, 'update']);
+
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/playlists', [PlaylistController::class, 'index']);

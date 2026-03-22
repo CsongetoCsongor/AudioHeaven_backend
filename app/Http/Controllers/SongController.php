@@ -246,8 +246,8 @@ class SongController extends Controller
         }
 
         if ($request->hasFile('cover')) {
-            $oldCoverPath = str_replace('storage/', '', $song->cover);
-            Storage::disk('public')->delete($oldCoverPath);
+            // $oldCoverPath = str_replace('storage/', '', $song->cover);
+            // Storage::disk('public')->delete($oldCoverPath);
 
             $newCoverPath = $request->file('cover')->store('covers', 'public');
             $song->cover = 'storage/' . $newCoverPath;
