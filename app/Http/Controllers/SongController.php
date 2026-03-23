@@ -277,11 +277,16 @@ class SongController extends Controller
             return response()->json(['message' => 'Unauthorized!'], 403);
         }
 
-        $audioPath = str_replace('app/public/', '', $song->stored_at);
-        Storage::disk('public')->delete($audioPath);
+       $audioPath = str_replace('app/public/', '', $song->stored_at);
+
+        if (!Str::startsWith($audioPath, 'defaults')) {
+            Storage::disk('public')->delete($audioPath);
+        }
 
         $coverPath = str_replace('storage/', '', $song->cover);
-        Storage::disk('public')->delete($coverPath);
+        if (!Str::startsWith($coverPath, 'defaults')) {
+            Storage::disk('public')->delete($coverPath);
+        }
 
         $song->delete();
 

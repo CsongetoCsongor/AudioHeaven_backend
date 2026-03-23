@@ -113,6 +113,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/albums/{id}', [AlbumController::class, 'update']);
 
+    Route::delete('/albums/{id}', [AlbumController::class, 'destroy']);
+
     Route::get('/queue', [QueueItemController::class, 'index']);
 
     Route::post('/queue/store-many', [QueueItemController::class, 'storeMany']);

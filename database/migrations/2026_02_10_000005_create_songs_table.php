@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('stored_at');
             $table->string('cover');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('album_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('album_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

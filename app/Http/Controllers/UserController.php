@@ -83,9 +83,9 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-
-        if ($user->profile_picture && !str_contains($user->profile_picture, 'default')) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_picture);
+        $profilePicturePath = str_replace('storage/', '', $user->profile_picture);
+        if (!Str::startsWith($profilePicturePath, 'defaults')) {
+            Storage::disk('public')->delete($profilePicturePath);
         }
 
         $user->delete();
@@ -103,6 +103,11 @@ class UserController extends Controller
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $profilePicturePath = str_replace('storage/', '', $user->profile_picture);
+        if (!Str::startsWith($profilePicturePath, 'defaults')) {
+            Storage::disk('public')->delete($profilePicturePath);
         }
 
         $user->delete();

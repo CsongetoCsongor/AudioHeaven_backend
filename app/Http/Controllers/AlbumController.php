@@ -191,8 +191,42 @@ class AlbumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Album $album)
+    public function destroy(Request $request, $id)
     {
-        //
+        // 1. Album betöltése a dalokkal
+        $album = Album::with('songs')->findOrFail($id);
+
+        // 2. Jogosultság ellenőrzése
+        if ($album->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized!'], 403);
+        }
+
+        // 3. A dalok audio fájljainak törlése (VÉDELEMMEL)
+        foreach ($album->songs as $song) {
+            $audioPath = str_replace('app/public/', '', $song->stored_at);
+            
+            // Ellenőrizzük, hogy létezik-e, ÉS nem a 'defaults' mappában van-e
+            if (!Str::startsWith($audioPath, 'defaults')) {
+                if (Storage::disk('public')->exists($audioPath)) {
+                    Storage::disk('public')->delete($audioPath);
+                }
+            }
+        }
+
+        // 4. Az album borítójának törlése (VÉDELEMMEL)
+        $albumCoverPath = str_replace('storage/', '', $album->album_cover);
+
+        if (!Str::startsWith($albumCoverPath, 'defaults')) {
+            if (Storage::disk('public')->exists($albumCoverPath)) {
+                Storage::disk('public')->delete($albumCoverPath);
+            }
+        }
+
+        // 5. Adatbázis rekordok törlése
+        $album->delete();
+
+        return response()->json([
+            'message' => 'Album, songs and non-default files deleted successfully!'
+        ]);
     }
 }
