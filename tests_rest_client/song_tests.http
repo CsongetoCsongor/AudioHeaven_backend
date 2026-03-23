@@ -47,7 +47,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Zene teszt
+Zene teszt333
 --boundary
 Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
@@ -93,7 +93,7 @@ Content-Type: image/jpeg
 ###
 
 ### Get a songs data by id
-GET http://localhost:8000/api/songs/2
+GET http://localhost:8000/api/songs/28
 Accept: application/json
 
 ###

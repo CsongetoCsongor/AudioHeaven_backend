@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -59,8 +62,10 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            // $oldPfpPath = str_replace('storage/', '', $user->profile_picture);
-            // Storage::disk('public')->delete($oldPfpPath);
+            $oldPfpPath = str_replace('storage/', '', $user->profile_picture);
+            if (!Str::startsWith($oldPfpPath, 'defaults')) {
+                Storage::disk('public')->delete($oldPfpPath);
+            }
 
             $newPfpPath = $request->file('profile_picture')->store('profile_pictures', 'public');
             $user->profile_picture = 'storage/' . $newPfpPath;
