@@ -73,7 +73,7 @@ Content-Type: application/json
 # }
 ###
 
-### Modify song
+### Update song
 POST http://localhost:8000/api/songs/21
 Authorization: Bearer {{authToken}}
 Accept: application/json

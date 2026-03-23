@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ###
 
-### 1. Search album by id
+### Search album by id
 GET http://localhost:8000/api/albums/1
 Accept: application/json
 
@@ -82,7 +82,7 @@ Content-Type: audio/mpeg
 < ./3_OMINOZUS2.mp3
 --boundary
 
-### Album frissítése (Figyelj a boundary-ra a fejlécben!)
+### Update album
 POST http://localhost:8000/api/albums/6
 Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=boundary
@@ -99,3 +99,8 @@ Content-Type: image/jpeg
 --boundary
 
 ###
+
+### Delete album
+DELETE http://localhost:8000/api/albums/6
+Authorization: Bearer {{authToken}}
+Accept: application/json

@@ -34,7 +34,7 @@ Accept: application/json
     "song_ids": [1, 2, 5, 10]
 }
 
-### Get queue item basod on position
+### Get queue item based on position
 GET http://localhost:8000/api/queue/position/2
 Authorization: Bearer {{authToken}}
 

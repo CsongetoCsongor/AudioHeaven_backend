@@ -48,7 +48,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-### 1. Reset link kérése
+### Request reset link
 POST http://localhost:8000/api/forgot-password
 Content-Type: application/json
 Accept: application/json
@@ -57,7 +57,7 @@ Accept: application/json
     "email": "csongeto.csongor@students.jedlik.eu"
 }
 
-### 2. Jelszó módosítása (A tokent az emailből kell kimásolni)
+### Modify password (copy token from email response)
 POST http://localhost:8000/api/reset-password
 Content-Type: application/json
 Accept: application/json
