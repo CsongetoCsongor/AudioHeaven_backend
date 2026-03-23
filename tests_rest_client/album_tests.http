@@ -81,3 +81,21 @@ Content-Type: audio/mpeg
 
 < ./3_OMINOZUS2.mp3
 --boundary
+
+### Album frissítése (Figyelj a boundary-ra a fejlécben!)
+POST http://localhost:8000/api/albums/6
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="title"
+
+New album title
+--boundary
+Content-Disposition: form-data; name="album_cover"; filename="cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--boundary
+
+###

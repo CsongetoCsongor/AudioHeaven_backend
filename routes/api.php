@@ -111,6 +111,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/albums', [AlbumController::class, 'store']);
 
+    Route::post('/albums/{id}', [AlbumController::class, 'update']);
+
     Route::get('/queue', [QueueItemController::class, 'index']);
 
     Route::post('/queue/store-many', [QueueItemController::class, 'storeMany']);
