@@ -10,7 +10,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="username"
 
-Teszt Elek2
+Cs Cs
 --boundary
 Content-Disposition: form-data; name="email"
 
@@ -36,7 +36,7 @@ Content-Type: application/json
 
 {
     "email": "csongeto.csongor@students.jedlik.eu",
-    "password": "password123"
+    "password": "uj_jelszo_123"
 }
 
 ###
@@ -47,3 +47,24 @@ Accept: application/json
 Authorization: Bearer {{authToken}}
 
 ###
+
+### 1. Reset link kérése
+POST http://localhost:8000/api/forgot-password
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "csongeto.csongor@students.jedlik.eu"
+}
+
+### 2. Jelszó módosítása (A tokent az emailből kell kimásolni)
+POST http://localhost:8000/api/reset-password
+Content-Type: application/json
+Accept: application/json
+
+{
+    "token": "ec50451eb967b7403732b54567d4ca39186f06416f5c1c2bd1564b1dcac986ef",
+    "email": "csongeto.csongor@students.jedlik.eu",
+    "password": "uj_jelszo_123",
+    "password_confirmation": "uj_jelszo_123"
+}

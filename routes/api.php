@@ -11,6 +11,7 @@ use App\Http\Controllers\QueueItemController;
 use App\Http\Controllers\ListeningHistoryItemController;
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\PasswordResetController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -26,6 +27,29 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify']
 Route::post('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
     ->middleware(['auth:sanctum', 'throttle:6,1'])
     ->name('verification.send');
+
+// routes/api.php
+
+// Ezt hívja a frontend, ha a user beírja az emailjét
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
+
+// // HA VAN FRONTEND:  Erre a nevesített route-ra van szüksége a Laravelnek a levél generálásához
+// Route::get('/reset-password/{token}', function (string $token) {
+//     return redirect('http://localhost:3000/reset-password?token=' . $token);
+// })->name('password.reset');
+
+// HA NINCS FRONTEND:  Erre a nevesített route-ra van szüksége a Laravelnek a levél generálásához
+Route::get('/reset-password/{token}', function (string $token, Request $request) {
+    // Csak visszaadjuk a tokent és az emailt, hogy be tudd másolni a Postmanbe
+    return response()->json([
+        'message' => 'Copy this token to your password reset request',
+        'token' => $token,
+        'email' => $request->query('email')
+    ]);
+})->name('password.reset');
+
+// Ezt hívja a frontend, amikor a user megadja az új jelszót
+Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
 
 Route::post('/login', [AuthController::class, 'login']);
 
