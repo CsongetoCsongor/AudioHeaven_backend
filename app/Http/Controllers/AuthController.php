@@ -12,34 +12,39 @@ use Illuminate\Auth\Events\Registered;
 class AuthController extends Controller
 {
     public function register(Request $request) {
-        $fields = $request->validate([
+        try {
+            $fields = $request->validate([
             'username' => 'required|string|unique:users,name',
             'email' => 'required|string|unique:users,email',
             'password' => ['required', 'string', Password::defaults()],
             'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:10000'
-        ]);
+            ]);
 
-        $path = 'defaults/default_profile_picture.png';
+            $path = 'defaults/default_profile_picture.png';
 
-        if ($request->hasFile('profile_picture')) {
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
-        }
+            if ($request->hasFile('profile_picture')) {
+                $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            }
 
-        $user = User::create([
-            'name' => $fields['username'],
-            'email' => $fields['email'],
-            'password' => Hash::make($fields['password']),
-            'profile_picture' => 'storage/' . $path
-        ]);
+            $user = User::create([
+                'name' => $fields['username'],
+                'email' => $fields['email'],
+                'password' => Hash::make($fields['password']),
+                'profile_picture' => 'storage/' . $path,
+                'role' => 'user'
+            ]);
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token
-        ], 201);
+            return response()->json([
+                'user' => $user,
+                'token' => $token
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Unknown error'], 500);
+        }  
     }
 
     public function login(Request $request)

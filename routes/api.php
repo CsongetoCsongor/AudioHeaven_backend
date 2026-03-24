@@ -28,8 +28,6 @@ Route::post('/email/verification-notification', [VerifyEmailController::class, '
     ->middleware(['auth:sanctum', 'throttle:6,1'])
     ->name('verification.send');
 
-// routes/api.php
-
 // Ezt hívja a frontend, ha a user beírja az emailjét
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
 

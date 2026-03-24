@@ -18,7 +18,7 @@ csongeto.csongor@students.jedlik.eu
 --boundary
 Content-Disposition: form-data; name="password"
 
-password123
+password
 --boundary
 Content-Disposition: form-data; name="profile_picture"; filename="pfp.jpg"
 Content-Type: image/png
@@ -36,7 +36,7 @@ Content-Type: application/json
 
 {
     "email": "csongeto.csongor@students.jedlik.eu",
-    "password": "uj_jelszo_123"
+    "password": "password"
 }
 
 ###

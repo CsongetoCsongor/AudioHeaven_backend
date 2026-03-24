@@ -37,16 +37,16 @@ class UserController extends Controller
     }
 
     public function show($id) {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if(!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
 
         return response()->json([
-            'id' => $user->id,
-            'name' => $user->name,
-            'profile_picture' => $user->profile_picture,
-            'email' => $user->email,
-            'created_at' => $user->created_at,
-            'songs' => $user->songs()->with('user')->get(),
-            'albums' => $user->albums()->with('user')->get()
+            'user' => $user,
+            'songs' => $user->songs()->get(),
+            'albums' => $user->albums()->get()
         ], 200);
     }
 
@@ -74,7 +74,6 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'message' => 'User updated successfully!',
             'user' => $user
         ]);
     }
@@ -102,7 +101,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(['message' => 'User not found.'], 404);
         }
 
         $profilePicturePath = str_replace('storage/', '', $user->profile_picture);
