@@ -132,7 +132,7 @@ class AlbumController extends Controller
             'user_id' => $album->user_id,
             'user' => $album->user()->select('id', 'name')->first(),
             'created_at' => $album->created_at,
-            'songs' => $album->songs()->get(),
+            'songs' => $album->songs()->with('user:id,name')->get(),
         ], 200);
     }
 
