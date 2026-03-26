@@ -21,13 +21,13 @@ Accept: application/json
 ###
 
 ### Search album by title or user(artist)
-GET http://localhost:8000/api/albums
+GET http://localhost:8000/api/albums?search=qu
 Accept: application/json
 
 ###
 
 ### Get album by user_id
-GET {{baseUrl}}/users/2/albums
+GET {{baseUrl}}/users/3/albums
 Accept: application/json
 
 ###

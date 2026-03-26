@@ -44,7 +44,7 @@ class PlaylistController extends Controller
 
     public function index(Request $request)
     {
-        $playlists = $request->user()->playlists()->with('songs')->get();
+        $playlists = $request->user()->playlists()->with('songs.user:id,name')->get();
 
         return response()->json($playlists, 200);
     }

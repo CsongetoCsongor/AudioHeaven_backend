@@ -66,7 +66,7 @@ class AlbumController extends Controller
         // 1. Validáció
         $request->validate([
             'title' => 'required|string|max:255',
-            'album_cover' => 'required|image|mimes:jpg,jpeg,png|max:5000',
+            'album_cover' => 'required|image|mimes:jpg,jpeg,png|max:10000',
             'songs' => 'required|array|min:1',
             'songs.*.title' => 'required|string|max:255',
             'songs.*.audio' => 'required|file|mimes:mp3,wav,ogg|max:20000',
@@ -118,7 +118,12 @@ class AlbumController extends Controller
     public function show($id)
     {
 
-        $album = Album::findOrFail($id);
+        $album = Album::find($id);
+
+        if(!$album) {
+            return response()->json(['message' => 'Album not found!'], 404);
+
+        }
 
         return response()->json([
             'id' => $album->id,
@@ -127,7 +132,7 @@ class AlbumController extends Controller
             'user_id' => $album->user_id,
             'user' => $album->user()->select('id', 'name')->first(),
             'created_at' => $album->created_at,
-            'songs' => $album->songs()->with('user:id,name')->get(),
+            'songs' => $album->songs()->get(),
         ], 200);
     }
 
@@ -157,7 +162,7 @@ class AlbumController extends Controller
 
         // 5. Borító frissítése
         if ($request->hasFile('album_cover')) {
-            
+
             // Régi borító törlése (ha nem alapértelmezett)
             $oldCoverPath = str_replace('storage/', '', $album->album_cover);
             if (!Str::startsWith($oldCoverPath, 'defaults')) {
@@ -194,7 +199,11 @@ class AlbumController extends Controller
     public function destroy(Request $request, $id)
     {
         // 1. Album betöltése a dalokkal
-        $album = Album::with('songs')->findOrFail($id);
+        $album = Album::with('songs')->find($id);
+
+        if(!$album) {
+            return response()->json(['message' => 'Album not found!'], 404);
+        }
 
         // 2. Jogosultság ellenőrzése
         if ($album->user_id !== auth()->id()) {
@@ -204,7 +213,7 @@ class AlbumController extends Controller
         // 3. A dalok audio fájljainak törlése (VÉDELEMMEL)
         foreach ($album->songs as $song) {
             $audioPath = str_replace('app/public/', '', $song->stored_at);
-            
+
             // Ellenőrizzük, hogy létezik-e, ÉS nem a 'defaults' mappában van-e
             if (!Str::startsWith($audioPath, 'defaults')) {
                 if (Storage::disk('public')->exists($audioPath)) {
