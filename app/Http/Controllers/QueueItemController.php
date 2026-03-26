@@ -14,7 +14,7 @@ class QueueItemController extends Controller
      */
     public function index()
     {
-        $queue = QueueItem::with('song', 'user:id,name')
+        $queue = QueueItem::with('song.user:id,name')
             ->where('user_id', auth()->id())
             ->orderBy('position', 'asc')
             ->get();
@@ -45,7 +45,7 @@ class QueueItemController extends Controller
 
         return response()->json([
             'message' => 'Song successfully added to queue!',
-            'queue_item' => $queueItem->load('song', 'user:id,name')
+            'queue_item' => $queueItem->load('song.user:id,name')
         ], 201);
     }
 
@@ -77,7 +77,7 @@ class QueueItemController extends Controller
 
     return response()->json([
         'message' => 'Songs successfully added to queue!',
-        'queue' => QueueItem::with('user:id,name', 'song')->where('user_id', $userId)->get()
+        'queue' => QueueItem::with('song.user:id,name')->where('user_id', $userId)->get()
     ], 201);
 }
 
@@ -146,7 +146,7 @@ class QueueItemController extends Controller
 
         return response()->json([
             'message' => "Successfully updated queue item from position: {$oldPos} to position: {$newPos}!",
-            'queue' => QueueItem::with('song', 'user:id,name')->where('user_id', $userId)->orderBy('position', 'asc')->get()
+            'queue' => QueueItem::with('song.user:id,name')->where('user_id', $userId)->orderBy('position', 'asc')->get()
         ]);
     }
 
