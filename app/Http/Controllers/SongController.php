@@ -227,7 +227,11 @@ class SongController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $song = Song::findOrFail($id);
+        $song = Song::find($id);
+
+        if(!$song) {
+            return response()->json(['message' => 'Song not found!'], 404);
+        }
 
         if ($song->user_id !== auth()->id()) {
             return response()->json(['message' => 'Not your song!'], 403);
@@ -274,7 +278,7 @@ class SongController extends Controller
         $song = Song::findOrFail($id);
 
         if ($song->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized!'], 403);
+            return response()->json(['message' => 'Not your song!'], 403);
         }
 
        $audioPath = str_replace('app/public/', '', $song->stored_at);
