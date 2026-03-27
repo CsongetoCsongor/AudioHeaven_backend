@@ -38,20 +38,20 @@ Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Add song to playlist
-POST http://localhost:8000/api/playlists/8/songs/4
+POST http://localhost:8000/api/playlists/6/songs/1
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ###
 
 ### Delete playlist
-DELETE http://localhost:8000/api/playlists/8
+DELETE http://localhost:8000/api/playlists/66
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ###
 
 ### Delete song from playlist
-DELETE http://localhost:8000/api/playlists/4/songs/3
+DELETE http://localhost:8000/api/playlists/6/songs/1
 Authorization: Bearer {{authToken}}
 Accept: application/json

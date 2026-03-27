@@ -20,7 +20,7 @@ Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Add song to queue
-POST http://localhost:8000/api/queue/2
+POST http://localhost:8000/api/queue/222
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
@@ -31,15 +31,15 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "song_ids": [1, 2, 5]
+    "song_ids": [10, 20, 5]
 }
 
 ### Get queue item based on position
-GET http://localhost:8000/api/queue/position/2
+GET http://localhost:8000/api/queue/position/1
 Authorization: Bearer {{authToken}}
 
 ### Move queue item by position
-PATCH http://localhost:8000/api/queue/move/2/to/5
+PATCH http://localhost:8000/api/queue/move/5/to/5
 Authorization: Bearer {{authToken}}
 Accept: application/json
 

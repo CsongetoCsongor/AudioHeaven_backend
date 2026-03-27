@@ -83,10 +83,13 @@ class QueueItemController extends Controller
 
     public function showByPosition($position)
     {
-        $item = QueueItem::with('song', 'user:id,name')
+        $item = QueueItem::with('song', 'song.user:id,name')
             ->where('user_id', auth()->id())
             ->where('position', $position)
-            ->firstOrFail();
+            ->first();
+        if(!$item) {
+            return response()->json(['message' => 'Queue item not found!'], 404);
+        }
 
         return response()->json($item);
     }

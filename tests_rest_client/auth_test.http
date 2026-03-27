@@ -63,7 +63,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "token": "ec50451eb967b7403732b54567d4ca39186f06416f5c1c2bd1564b1dcac986ef",
+    "token": "b85aab8e839fcbb5879692d038f05240e5bcf1a2ddc22dad8cfe1f996f306943",
     "email": "csongeto.csongor@students.jedlik.eu",
     "password": "uj_jelszo_123",
     "password_confirmation": "uj_jelszo_123"

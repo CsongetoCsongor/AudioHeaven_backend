@@ -8,7 +8,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "csongeto.csongor@students.jedlik.eu",
+    "email": "teszt@example.com",
     "password": "password"
 }
 

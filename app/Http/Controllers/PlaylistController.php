@@ -20,7 +20,11 @@ class PlaylistController extends Controller
             return response()->json(['message' => 'Song does not exists!'], 404);
         }
 
-        $playlist = Playlist::findOrFail($playlistId);
+        $playlist = Playlist::find($playlistId);
+
+        if(!$playlist) {
+            return response()->json(['message' => 'Playlist does not exists!'], 404);
+        }
 
         if ($playlist->user_id !== auth()->id()) {
             return response()->json(['message' => 'Not your playlist!'], 403);
@@ -104,7 +108,12 @@ public function show($id)
      */
     public function destroy(Request $request, $id)
     {
-        $playlist = Playlist::findOrFail($id);
+        $playlist = Playlist::find($id);
+
+
+        if(!$playlist) {
+            return response()->json(['message' => 'Playlist does not exists!'], 404);
+        }
 
         if ($playlist->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized!'], 403);
@@ -117,7 +126,11 @@ public function show($id)
 
     public function removeSong(Request $request, $playlistId, $songId)
     {
-        $playlist = Playlist::findOrFail($playlistId);
+        $playlist = Playlist::find($playlistId);
+
+        if(!$playlist) {
+            return response()->json(['message' => 'Playlist does not exists!'], 404);
+        }
 
         if ($playlist->user_id !== auth()->id()) {
             return response()->json(['message' => 'Not your playlist!'], 403);

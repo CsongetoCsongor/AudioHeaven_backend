@@ -63,14 +63,14 @@ Content-Type: image/jpeg
 ###
 
 ### Logging play
-POST {{baseUrl}}/songs/2111/log-play
+POST {{baseUrl}}/songs/2/log-play
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: application/json
 
-# {
-#     "playlist_id": 2
-# }
+{
+    "playlist_id": 2
+}
 ###
 
 ### Update song
@@ -93,7 +93,7 @@ Content-Type: image/jpeg
 ###
 
 ### Get a songs data by id
-GET http://localhost:8000/api/songs/2888
+GET http://localhost:8000/api/songs/28
 Accept: application/json
 
 ###
