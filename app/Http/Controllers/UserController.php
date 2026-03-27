@@ -45,8 +45,8 @@ class UserController extends Controller
 
         return response()->json([
             'user' => $user,
-            'songs' => $user->songs()->get(),
-            'albums' => $user->albums()->get()
+            'songs' => $user->songs()->with('user:id,name')->get(),
+            'albums' => $user->albums()->with('user:id,name')->get()
         ], 200);
     }
 
