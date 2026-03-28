@@ -128,7 +128,7 @@ class DatabaseSeeder extends Seeder
         $albumSongs = [
             ['id' => 16, 'title_fn' => 'Ugrasstilus', 'title' => 'ugrasstilus', 'ext' => 'mp3'],
             ['id' => 17, 'title_fn' => 'Stride', 'title' => 'stride', 'ext' => 'mp3'],
-            ['id' => 18, 'title_fn' => 'Bloodvessel', 'title' => 'blood vessel', 'ext' => 'mp3'],
+            ['id' => 18, 'title_fn' => 'altered', 'title' => 'altered', 'ext' => 'mp3'],
         ];
 
         foreach ($albumSongs as $as) {
@@ -231,16 +231,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 2. Single zene létrehozása (Object Oriented Love)
-        // A képed alapján: default_song_12_objectorientedlove.mp3 és default_song_cover_12.png
-        Song::create([
-            'user_id' => $user->id,
-            'album_id' => null,
-            'title' => 'Object Oriented Love',
-            'plays' => rand(100, 2000),
-            'length' => rand(180, 240),
-            'stored_at' => "app/public/defaults/seeding/defsongs/default_song_12_objectorientedlove.mp3",
-            'cover' => "storage/defaults/seeding/defsongcovers/default_song_cover_12.png",
-        ]);
 
 
         $singles = [
