@@ -19,8 +19,12 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
+
+    protected $getID3;
+
     public function run(): void
     {
+        $this->getID3 = new \getID3;
         // User::factory(10)->create();
 
     //     User::factory()->create([
@@ -31,71 +35,18 @@ class DatabaseSeeder extends Seeder
     //         'role' => 'admin',
     //     ]);
 
-    //     $testUser = User::factory()->create([
-    //         'name' => 'Teszt Elek',
-    //         'email' => 'teszt@example.com',
-    //         'password' => Hash::make('password'),
-    //         'profile_picture' => 'storage/defaults/default_profile_picture.png',
-    //         'role' =>'user',
-    //     ]);
-
-    //     $users = User::factory(5)->create();
-    //     $allUsers = $users->concat([$testUser]);
-
-    //     foreach ($allUsers as $user) {
-    //     // 1. Minden felhasználó feltölt egy zenét, ami NINCS albumban
-    //     Song::factory()->create([
-    //         'user_id' => $user->id,
-    //         'album_id' => null,
-    //         'title' => 'Single - ' . fake()->words(2, true),
-    //     ]);
-
-    //     // 2. Minden felhasználó feltölt egy albumot
-    //     $album = Album::factory()->create([
-    //         'user_id' => $user->id,
-    //         'title' => 'Album - ' . fake()->words(2, true),
-    //     ]);
-
-    //     // 3. Az albumhoz létrehozunk 3 zenét a kért borítóképpel
-    //     Song::factory(3)->create([
-    //         'user_id' => $user->id,
-    //         'album_id' => $album->id,
-    //         'cover' => 'storage/defaults/default_album_cover.png', // Fix borítókép az album zenéinek
-    //     ]);
-
-    //     // 4. Minden usernek csinálunk egy Playlistet is
-    //     $playlist = Playlist::create([
-    //         'title' => 'Kedvenceim - ' . $user->name,
-    //         'user_id' => $user->id
-    //     ]);
-
-    //     // Rakjunk bele pár véletlen zenét a playlistbe (az összes dal közül válogatva)
-    //     $randomSongs = Song::inRandomOrder()->limit(3)->get();
-    //     $playlist->songs()->attach($randomSongs->pluck('id'));
-    // }
-
-    //     // 6. A teszt usernek rakjunk valamit a Queue-jába is
-    //     $queueSongs = Song::inRandomOrder()->limit(3)->get();
-    //     foreach ($queueSongs as $index => $song) {
-    //         QueueItem::create([
-    //             'user_id' => $testUser->id,
-    //             'song_id' => $song->id,
-    //             'position' => $index + 1
-    //         ]);
-    //     }
-
-    // }
 
     // 1. Teszt Elek
         $user = User::create([
             'name' => 'Teszt Elek',
             'email' => 'teszt@example.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_1.png',
             'role' => 'user',
         ]);
 
         // --- SINGLE ZENÉK ---
+        $getID3 = new \getID3;
         $singles = [
             ['id' => 1, 'title_fn' => 'Ominous', 'title' => 'Ominous', 'ext' => 'mp3', 'img_ext' => 'jpg'],
             ['id' => 2, 'title_fn' => 'Outside', 'title' => 'Outside', 'ext' => 'mp3', 'img_ext' => 'jpg'],
@@ -104,12 +55,14 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($singles as $s) {
+            $relative_path = "defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}";
+
             Song::create([
                 'user_id' => $user->id,
                 'title' => $s['title'],
                 'plays' => rand(10, 500),
-                'length' => rand(120, 240),
-                'stored_at' => "app/public/defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}",
+                'length' => $this->getAudioDuration("public/{$relative_path}"),
+                'stored_at' => "app/public/{$relative_path}",
                 'cover' => "storage/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}",
                 'album_id' => null,
             ]);
@@ -132,12 +85,13 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($albumSongs as $as) {
+            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
             Song::create([
                 'user_id' => $user->id,
                 'title' => $as['title'],
-                'plays' => rand(100, 1000),
-                'length' => rand(150, 300),
-                'stored_at' => "app/public/defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}",
+                'plays' => rand(10, 500),
+                'length' => $this->getAudioDuration("public/{$relative_path}"),
+                'stored_at' => "app/public/{$relative_path}",
                 'cover' => $albumCover,
                 'album_id' => $album->id,
             ]);
@@ -147,7 +101,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'The React Reckoning',
             'email' => 'thereactreckoning@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_2.jpg',
             'role' => 'user',
         ]);
 
@@ -168,14 +122,15 @@ class DatabaseSeeder extends Seeder
 
 
         foreach ($albumSongs as $as) {
+            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
             Song::create([
                 'user_id' => $user->id,
-                'album_id' => $album->id,
                 'title' => $as['title'],
-                'plays' => rand(50, 1000),
-                'length' => rand(180, 300),
-                'stored_at' => "app/public/defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}",
+                'plays' => rand(10, 500),
+                'length' => $this->getAudioDuration("public/{$relative_path}"),
+                'stored_at' => "app/public/{$relative_path}",
                 'cover' => $albumCover,
+                'album_id' => $album->id,
             ]);
         }
 
@@ -184,7 +139,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'ThugCode',
             'email' => 'thugcode@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_3.png',
             'role' => 'user',
         ]);
 
@@ -209,15 +164,15 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($albumSongs as $as) {
+            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
             Song::create([
                 'user_id' => $user->id,
-                'album_id' => $album->id,
-                'title' => $as['title'], // Szebb megjelenítés (pl. Rest Rage)
-                'plays' => rand(100, 5000),
-                'length' => rand(120, 300),
-                // Elérési út felépítése: default_song_6_codeignite.mp3
-                'stored_at' => "app/public/defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}",
+                'title' => $as['title'],
+                'plays' => rand(10, 500),
+                'length' => $this->getAudioDuration("public/{$relative_path}"),
+                'stored_at' => "app/public/{$relative_path}",
                 'cover' => $albumCover,
+                'album_id' => $album->id,
             ]);
         }
 
@@ -226,7 +181,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Cyber Lovers',
             'email' => 'cyberlovers@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_4.png',
             'role' => 'user',
         ]);
 
@@ -238,12 +193,14 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($singles as $s) {
+           $relative_path = "defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}";
+
             Song::create([
                 'user_id' => $user->id,
                 'title' => $s['title'],
                 'plays' => rand(10, 500),
-                'length' => rand(120, 240),
-                'stored_at' => "app/public/defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}",
+                'length' => $this->getAudioDuration("public/{$relative_path}"),
+                'stored_at' => "app/public/{$relative_path}",
                 'cover' => "storage/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}",
                 'album_id' => null,
             ]);
@@ -266,16 +223,33 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($albumSongs as $as) {
+            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
             Song::create([
                 'user_id' => $user->id,
-                'album_id' => $album->id,
                 'title' => $as['title'],
-                'plays' => rand(500, 3000),
-                'length' => rand(200, 350),
-                'stored_at' => "app/public/defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}",
+                'plays' => rand(10, 500),
+                'length' => $this->getAudioDuration("public/{$relative_path}"),
+                'stored_at' => "app/public/{$relative_path}",
                 'cover' => $albumCover,
+                'album_id' => $album->id,
             ]);
         }
 
+    }
+
+    protected function getAudioDuration(string $path): int
+    {
+        $fullPath = storage_path("app/{$path}");
+
+        if (!file_exists($fullPath)) {
+            Log::warning("Seeder hiba: A fájl nem található: {$fullPath}");
+            return 0;
+        }
+
+        $fileInfo = $this->getID3->analyze($fullPath);
+
+        return isset($fileInfo['playtime_seconds'])
+            ? (int)round($fileInfo['playtime_seconds'])
+            : 0;
     }
 }

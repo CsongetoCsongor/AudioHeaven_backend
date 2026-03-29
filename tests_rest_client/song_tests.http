@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "email": "teszt@example.com",
-    "password": "password"
+    "password": "password123"
 }
 
 ###
@@ -47,7 +47,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-Zene teszt333
+Hossz teszt
 --boundary
 Content-Disposition: form-data; name="audio"; filename="3_OMINOZUS.mp3"
 Content-Type: audio/mpeg
