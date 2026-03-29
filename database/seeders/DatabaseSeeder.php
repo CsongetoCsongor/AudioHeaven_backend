@@ -25,15 +25,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->getID3 = new \getID3;
-        // User::factory(10)->create();
 
-    //     User::factory()->create([
-    //         'name' => 'Admin User',
-    //         'email' => 'admin@example.com',
-    //         'password' => Hash::make('password'),
-    //         'profile_picture' => 'storage/defaults/default_profile_picture.png',
-    //         'role' => 'admin',
-    //     ]);
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'role' => 'admin',
+        ]);
 
 
     // 1. Teszt Elek
@@ -105,6 +104,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
+        $singles = [
+            ['id' => 19, 'title_fn' => 'nopivotssqldisstrack', 'title' => 'No Pivots (SQL Disstrack)', 'ext' => 'mp3', 'img_ext' => 'png'],
+        ];
+
+        $this->seedSongs($singles, $user->id);
+
         $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_6_7_8_9_10_11.png";
 
         $album = Album::create([
@@ -155,6 +160,20 @@ class DatabaseSeeder extends Seeder
 
         $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
 
+    //Lil Sql
+        $user = User::create([
+            'name' => 'Lil Sql',
+            'email' => 'lilsql@audioheaven.com',
+            'password' => Hash::make('password123'),
+            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_5.png',
+            'role' => 'user',
+        ]);
+
+        $singles = [
+            ['id' => 20, 'title_fn' => 'silentdropnosqldisstrack', 'title' => 'Silent Drop (NoSQL Disstrack)', 'ext' => 'mp3', 'img_ext' => 'png'],
+        ];
+
+        $this->seedSongs($singles, $user->id);
 
     }
 
