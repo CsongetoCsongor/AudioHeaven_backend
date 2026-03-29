@@ -45,8 +45,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
-        // --- SINGLE ZENÉK ---
-        $getID3 = new \getID3;
         $singles = [
             ['id' => 1, 'title_fn' => 'Ominous', 'title' => 'Ominous', 'ext' => 'mp3', 'img_ext' => 'jpg'],
             ['id' => 2, 'title_fn' => 'Outside', 'title' => 'Outside', 'ext' => 'mp3', 'img_ext' => 'jpg'],
@@ -54,21 +52,8 @@ class DatabaseSeeder extends Seeder
             ['id' => 15, 'title_fn' => 'Stayvigilant', 'title' => 'Stay Vigilant', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
-        foreach ($singles as $s) {
-            $relative_path = "defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}";
+        $this->seedSongs($singles, $user->id);
 
-            Song::create([
-                'user_id' => $user->id,
-                'title' => $s['title'],
-                'plays' => rand(10, 500),
-                'length' => $this->getAudioDuration("public/{$relative_path}"),
-                'stored_at' => "app/public/{$relative_path}",
-                'cover' => "storage/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}",
-                'album_id' => null,
-            ]);
-        }
-
-        // --- ALBUM LÉTREHOZÁSA ---
         $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_16_17_18.jpg";
 
         $album = Album::create([
@@ -77,25 +62,13 @@ class DatabaseSeeder extends Seeder
             'album_cover' => $albumCover,
         ]);
 
-        // --- ALBUM ZENÉI ---
         $albumSongs = [
             ['id' => 16, 'title_fn' => 'Ugrasstilus', 'title' => 'ugrasstilus', 'ext' => 'mp3'],
             ['id' => 17, 'title_fn' => 'Stride', 'title' => 'stride', 'ext' => 'mp3'],
             ['id' => 18, 'title_fn' => 'altered', 'title' => 'altered', 'ext' => 'mp3'],
         ];
 
-        foreach ($albumSongs as $as) {
-            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
-            Song::create([
-                'user_id' => $user->id,
-                'title' => $as['title'],
-                'plays' => rand(10, 500),
-                'length' => $this->getAudioDuration("public/{$relative_path}"),
-                'stored_at' => "app/public/{$relative_path}",
-                'cover' => $albumCover,
-                'album_id' => $album->id,
-            ]);
-        }
+        $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
     //The React Reckoning
         $user = User::create([
             'name' => 'The React Reckoning',
@@ -105,7 +78,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
-        // 2. Album létrehozása
+
         $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_4_5.png";
 
         $album = Album::create([
@@ -114,25 +87,14 @@ class DatabaseSeeder extends Seeder
             'album_cover' => $albumCover,
         ]);
 
-        // 3. Album zenéi (ID: 4 és 5)
         $albumSongs = [
             ['id' => 4, 'title_fn' => 'KingOfTheStack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
             ['id' => 5, 'title_fn' => 'RiseOfNextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
         ];
 
 
-        foreach ($albumSongs as $as) {
-            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
-            Song::create([
-                'user_id' => $user->id,
-                'title' => $as['title'],
-                'plays' => rand(10, 500),
-                'length' => $this->getAudioDuration("public/{$relative_path}"),
-                'stored_at' => "app/public/{$relative_path}",
-                'cover' => $albumCover,
-                'album_id' => $album->id,
-            ]);
-        }
+        $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
+
 
     //ThugCode
         $user = User::create([
@@ -143,7 +105,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
-        // 2. Album létrehozása
         $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_6_7_8_9_10_11.png";
 
         $album = Album::create([
@@ -152,8 +113,6 @@ class DatabaseSeeder extends Seeder
             'album_cover' => $albumCover,
         ]);
 
-        // 3. Album zenéi (ID: 6-tól 11-ig)
-        // A fájlnevek alapján: id_cim.mp3
         $albumSongs = [
             ['id' => 6, 'title_fn' => 'Codeignite', 'title' => 'Code Ignite', 'ext' => 'mp3'],
             ['id' => 7, 'title_fn' => 'Laravellifestyle', 'title' => 'Laravel Lifestyle', 'ext' => 'mp3'],
@@ -163,18 +122,7 @@ class DatabaseSeeder extends Seeder
             ['id' => 11, 'title_fn' => 'Mauimadness', 'title' => 'Maui Madness', 'ext' => 'mp3'],
         ];
 
-        foreach ($albumSongs as $as) {
-            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
-            Song::create([
-                'user_id' => $user->id,
-                'title' => $as['title'],
-                'plays' => rand(10, 500),
-                'length' => $this->getAudioDuration("public/{$relative_path}"),
-                'stored_at' => "app/public/{$relative_path}",
-                'cover' => $albumCover,
-                'album_id' => $album->id,
-            ]);
-        }
+        $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
 
     // Cyber Lovers
         $user = User::create([
@@ -185,29 +133,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
-        // 2. Single zene létrehozása (Object Oriented Love)
-
-
         $singles = [
             ['id' => 12, 'title_fn' => 'Objectorientedlove', 'title' => 'Object Oriented Love', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
-        foreach ($singles as $s) {
-           $relative_path = "defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}";
+        $this->seedSongs($singles, $user->id);
 
-            Song::create([
-                'user_id' => $user->id,
-                'title' => $s['title'],
-                'plays' => rand(10, 500),
-                'length' => $this->getAudioDuration("public/{$relative_path}"),
-                'stored_at' => "app/public/{$relative_path}",
-                'cover' => "storage/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}",
-                'album_id' => null,
-            ]);
-        }
-
-        // 3. Album létrehozása (Next Love)
-        // A képed alapján: default_album_cover_13_14.png
         $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_13_14.png";
 
         $album = Album::create([
@@ -222,18 +153,8 @@ class DatabaseSeeder extends Seeder
             ['id' => 14, 'title_fn' => 'Thecomponenttomyheart', 'title' => 'The Component To My Heart', 'ext' => 'mp3'],
         ];
 
-        foreach ($albumSongs as $as) {
-            $relative_path = "defaults/seeding/defsongs/default_song_{$as['id']}_{$as['title_fn']}.{$as['ext']}";
-            Song::create([
-                'user_id' => $user->id,
-                'title' => $as['title'],
-                'plays' => rand(10, 500),
-                'length' => $this->getAudioDuration("public/{$relative_path}"),
-                'stored_at' => "app/public/{$relative_path}",
-                'cover' => $albumCover,
-                'album_id' => $album->id,
-            ]);
-        }
+        $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
+
 
     }
 
@@ -251,5 +172,23 @@ class DatabaseSeeder extends Seeder
         return isset($fileInfo['playtime_seconds'])
             ? (int)round($fileInfo['playtime_seconds'])
             : 0;
+    }
+
+    protected function seedSongs(array $songs, int $userId, ?int $albumId = null, ?string $albumCover = null): void
+    {
+
+        foreach ($songs as $s) {
+            $relativeSongPath = "defaults/seeding/defsongs/default_song_{$s['id']}_{$s['title_fn']}.{$s['ext']}";
+
+            Song::create([
+                'user_id'   => $userId,
+                'title'     => $s['title'],
+                'plays'     => rand(10, 500),
+                'length'    => $this->getAudioDuration("public/{$relativeSongPath}"),
+                'stored_at' => "app/public/{$relativeSongPath}",
+                'cover'     => $albumId == null ? "storage/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}" : $albumCover,
+                'album_id'  => $albumId,
+            ]);
+        }
     }
 }
