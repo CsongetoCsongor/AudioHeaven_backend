@@ -106,6 +106,7 @@ class DatabaseSeeder extends Seeder
 
         $singles = [
             ['id' => 19, 'title_fn' => 'nopivotssqldisstrack', 'title' => 'No Pivots (SQL Disstrack)', 'ext' => 'mp3', 'img_ext' => 'png'],
+            ['id' => 21, 'title_fn' => '3tmongodbcompassdisstrack', 'title' => '3T (MongoDB Compass Disstrack)', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
         $this->seedSongs($singles, $user->id);
