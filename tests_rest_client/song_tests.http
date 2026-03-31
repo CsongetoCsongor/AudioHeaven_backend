@@ -15,7 +15,7 @@ Content-Type: application/json
 ###
 
 ### List songs by user_id
-GET {{baseUrl}}/users/211/songs
+GET {{baseUrl}}/users/2/songs
 Accept: application/json
 Authorization: Bearer {{authToken}}
 ###
@@ -74,7 +74,7 @@ Content-Type: application/json
 ###
 
 ### Update song
-POST http://localhost:8000/api/songs/21
+POST http://localhost:8000/api/songs/5
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: multipart/form-data; boundary=boundary
@@ -82,13 +82,13 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="title"
 
-New title 2
+ugrasstilus2
 --boundary
-Content-Disposition: form-data; name="cover"; filename="uj_borito.jpg"
-Content-Type: image/jpeg
+# Content-Disposition: form-data; name="cover"; filename="uj_borito.jpg"
+# Content-Type: image/jpeg
 
-< ./cover.jpg
---boundary--
+# < ./cover.jpg
+# --boundary--
 
 ###
 

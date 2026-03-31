@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-    // 1. Teszt Elek
+    //Teszt Elek
         $user = User::create([
             'name' => 'Teszt Elek',
             'email' => 'teszt@example.com',
@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
 
         $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
 
-    // Cyber Lovers
+    //Cyber Lovers
         $user = User::create([
             'name' => 'Cyber Lovers',
             'email' => 'cyberlovers@audioheaven.com',
@@ -172,6 +172,21 @@ class DatabaseSeeder extends Seeder
 
         $singles = [
             ['id' => 20, 'title_fn' => 'silentdropnosqldisstrack', 'title' => 'Silent Drop (NoSQL Disstrack)', 'ext' => 'mp3', 'img_ext' => 'png'],
+        ];
+
+        $this->seedSongs($singles, $user->id);
+
+    //mongoca$h
+    $user = User::create([
+            'name' => 'mongoca$h',
+            'email' => 'mongocash@audioheaven.com',
+            'password' => Hash::make('password123'),
+            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_6.png',
+            'role' => 'user',
+        ]);
+
+        $singles = [
+            ['id' => 22, 'title_fn' => 'mongowizardstudio3tdisstrack', 'title' => 'Mongo Wizard (Studio3T Disstrack)', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
         $this->seedSongs($singles, $user->id);

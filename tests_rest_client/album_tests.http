@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "email": "teszt@example.com",
-    "password": "password"
+    "password": "password123"
 }
 
 ###
@@ -27,7 +27,7 @@ Accept: application/json
 ###
 
 ### Get album by user_id
-GET {{baseUrl}}/users/3/albums
+GET {{baseUrl}}/users/2/albums
 Accept: application/json
 
 ###
