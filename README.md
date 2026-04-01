@@ -16,6 +16,8 @@ php artisan migrate:fresh
 
 php artisan storage:link
 
+php artisan test --testsuite=Unit
+
 php.ini:
 upload_max_filesize = 100M
 post_max_size = 120M
