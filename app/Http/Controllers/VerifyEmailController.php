@@ -16,18 +16,19 @@ class VerifyEmailController extends Controller
 
     // 2. Maga az ellenőrzés folyamata
     public function verify(Request $request, $id, $hash) {
-        $user = User::findOrFail($id);
+            $user = User::findOrFail($id);
 
-        if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-            return response()->json(['message' => 'Invalid hash'], 403);
-        }
+            if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+                return response()->json(['message' => 'Invalid hash'], 403);
+            }
 
-        if ($user->hasVerifiedEmail()) {
-            return redirect('http://localhost:3000/login?already_verified=1');
-        }
+            if ($user->hasVerifiedEmail()) {
+                return redirect('http://localhost:3000/login?already_verified=1');
+            }
 
-        $user->markEmailAsVerified();
-        event(new \Illuminate\Auth\Events\Verified($user));
-        return response()->json(['message' => 'Email verified successfully!']);
+            $user->markEmailAsVerified();
+            event(new \Illuminate\Auth\Events\Verified($user));
+            // return response()->json(['message' => 'Email verified successfully!']);
+            return redirect('http://localhost:3000/home?verification=success');
     }
 }
