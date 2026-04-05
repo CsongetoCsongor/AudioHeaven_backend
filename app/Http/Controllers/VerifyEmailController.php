@@ -16,6 +16,7 @@ class VerifyEmailController extends Controller
 
     // 2. Maga az ellenőrzés folyamata
     public function verify(Request $request, $id, $hash) {
+        try {
             $user = User::findOrFail($id);
 
             if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
@@ -30,5 +31,10 @@ class VerifyEmailController extends Controller
             event(new \Illuminate\Auth\Events\Verified($user));
             // return response()->json(['message' => 'Email verified successfully!']);
             return redirect('http://localhost:8080/home?verification=success');
+        }
+        catch (\Throwable $th) {
+            return redirect('http://localhost:8080/home?verification=error');
+        }
     }
+
 }
