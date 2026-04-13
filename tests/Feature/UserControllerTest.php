@@ -34,7 +34,6 @@ test('random: megadott számú véletlenszerű felhasználót ad vissza', functi
 test('show: visszaadja a felhasználót a hozzá tartozó dalokkal és albumokkal', function () {
     $user = User::factory()->create();
 
-    // Létrehozunk neki egy dalt és egy albumot
     Song::factory()->create(['user_id' => $user->id]);
     Album::factory()->create(['user_id' => $user->id]);
 
