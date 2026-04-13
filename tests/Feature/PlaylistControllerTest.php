@@ -11,7 +11,6 @@ test('index: returns all playlists belonging to the authenticated user', functio
     $user = User::factory()->create();
     $otherUser = User::factory()->create();
 
-    // Create 2 playlists for our user and 1 for someone else
     Playlist::factory()->count(2)->create(['user_id' => $user->id]);
     Playlist::factory()->create(['user_id' => $otherUser->id]);
 
@@ -27,10 +26,8 @@ test('show: returns a specific playlist with its songs, creators, and albums', f
     $playlist = Playlist::factory()->create(['user_id' => $user->id]);
     $song = Song::factory()->create();
 
-    // Attach song to playlist
     $playlist->songs()->attach($song->id);
 
-    // Itt a kulcs: actingAs($user) hozzáadása!
     $response = $this->actingAs($user)
                      ->getJson("/api/playlists/{$playlist->id}");
 
@@ -63,10 +60,8 @@ test('addSong: successfully adds a song to a playlist', function () {
 //     $playlist = Playlist::factory()->create(['user_id' => $user->id]);
 //     $song = Song::factory()->create();
 
-//     // Add it once first
 //     $playlist->songs()->attach($song->id);
 
-//     // Try adding it again
 //     $response = $this->actingAs($user)
 //                      ->postJson("/api/playlists/{$playlist->id}/songs/{$song->id}");
 

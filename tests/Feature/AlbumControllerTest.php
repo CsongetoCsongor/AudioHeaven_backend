@@ -8,20 +8,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 test('index: lists all albums and can search by title or username', function () {
-    // Prepare: Create two users and their albums
+
     $user1 = User::factory()->create(['name' => 'John Doe']);
     $user2 = User::factory()->create(['name' => 'Jane Smith']);
 
     Album::factory()->create(['title' => 'The Great Revival', 'user_id' => $user1->id]);
     Album::factory()->create(['title' => 'Smith Vibes', 'user_id' => $user2->id]);
 
-    // Search by Album Title
+
     $responseByTitle = $this->getJson('/api/albums?search=Revival');
     $responseByTitle->assertStatus(200)
                     ->assertJsonCount(1)
                     ->assertJsonFragment(['title' => 'The Great Revival']);
 
-    // Search by Artist Name
+
     $responseByArtist = $this->getJson('/api/albums?search=Smith');
     $responseByArtist->assertStatus(200)
                      ->assertJsonCount(1)

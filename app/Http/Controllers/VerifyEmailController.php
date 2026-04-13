@@ -8,13 +8,11 @@ use App\Models\User;
 
 class VerifyEmailController extends Controller
 {
-    // 1. Az értesítés újraküldése (ha nem kapta meg)
     public function resendNotification(Request $request) {
         $request->user()->sendEmailVerificationNotification();
         return response()->json(['message' => 'Verification link sent!']);
     }
 
-    // 2. Maga az ellenőrzés folyamata
     public function verify(Request $request, $id, $hash) {
         try {
             $user = User::findOrFail($id);

@@ -5,18 +5,18 @@ use App\Models\Song;
 use App\Models\Album;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-// Ez a trait minden teszt előtt kiüríti az adatbázist és lefuttatja a migrationöket
+
 uses(RefreshDatabase::class);
 
 test('index: kilistázza a felhasználókat és szűrhető név alapján', function () {
-    // Adat előkészítése
+
     User::factory()->create(['name' => 'Teszt Elek']);
     User::factory()->create(['name' => 'Kovács János']);
 
-    // Kérés küldése kereséssel
+
     $response = $this->getJson('/api/users?search=Elek');
 
-    // Ellenőrzés
+
     $response->assertStatus(200)
              ->assertJsonCount(1)
              ->assertJsonFragment(['name' => 'Teszt Elek']);
@@ -51,7 +51,6 @@ test('show: visszaadja a felhasználót a hozzá tartozó dalokkal és albumokka
 test('me: visszaadja a jelenleg bejelentkezett felhasználót', function () {
     $user = User::factory()->create();
 
-    // Szimuláljuk a bejelentkezést (Sanctum/Passport esetén)
     $response = $this->actingAs($user)
                      ->getJson('/api/me');
 
