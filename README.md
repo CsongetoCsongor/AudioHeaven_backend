@@ -22,3 +22,5 @@ php.ini:
 upload_max_filesize = 100M
 post_max_size = 120M
 memory_limit = 256M
+
+php artisan migrate:fresh --seed

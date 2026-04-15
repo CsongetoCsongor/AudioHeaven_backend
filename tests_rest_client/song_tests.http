@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8000/api
+@baseUrl = https://jcloud02.jedlik.eu/csongeto.csongor/public
 @authToken = {{login.response.body.token}}
 
 ### Login
