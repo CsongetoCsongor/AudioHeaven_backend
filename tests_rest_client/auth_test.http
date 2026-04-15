@@ -1,4 +1,5 @@
-@baseUrl = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
+@baseUrl = http://localhost:8000/api
+@baseUrlServer = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
 @authToken = {{login.response.body.token}}
 
 
@@ -49,7 +50,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 ### Request reset link
-POST http://localhost:8000/api/forgot-password
+POST {{baseUrl}}/forgot-password
 Content-Type: application/json
 Accept: application/json
 
@@ -58,7 +59,7 @@ Accept: application/json
 }
 
 ### Modify password (copy token from email response)
-POST http://localhost:8000/api/reset-password
+POST {{baseUrl}}/reset-password
 Content-Type: application/json
 Accept: application/json
 

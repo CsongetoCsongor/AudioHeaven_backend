@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:8000/api
+@baseUrlServer = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
 @authToken = {{login.response.body.token}}
 
 ### Login
@@ -15,11 +16,11 @@ Content-Type: application/json
 ###
 
 ### Get users history's first page
-GET http://localhost:8000/api/history
+GET {{baseUrl}}/history
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Get users history's second page
-GET http://localhost:8000/api/history?page=2
+GET {{baseUrl}}/history?page=2
 Authorization: Bearer {{authToken}}
 Accept: application/json

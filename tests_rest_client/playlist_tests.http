@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:8000/api
+@baseUrlServer = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
 @authToken = {{login.response.body.token}}
 
 ### Login
@@ -15,7 +16,7 @@ Content-Type: application/json
 ###
 
 ### Create new playlist
-POST http://localhost:8000/api/playlists
+POST {{baseUrl}}/playlists
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: application/json
@@ -27,31 +28,31 @@ Content-Type: application/json
 ###
 
 ### Get my playlists
-GET http://localhost:8000/api/playlists
+GET {{baseUrl}}/playlists
 Authorization: Bearer {{authToken}}
 Accept: application/json
 ###
 
 ### Get playlist by id
-GET http://localhost:8000/api/playlists/2
+GET {{baseUrl}}/playlists/2
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Add song to playlist
-POST http://localhost:8000/api/playlists/6/songs/1
+POST {{baseUrl}}/playlists/6/songs/1
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ###
 
 ### Delete playlist
-DELETE http://localhost:8000/api/playlists/66
+DELETE {{baseUrl}}/playlists/66
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ###
 
 ### Delete song from playlist
-DELETE http://localhost:8000/api/playlists/6/songs/1
+DELETE {{baseUrl}}/playlists/6/songs/1
 Authorization: Bearer {{authToken}}
 Accept: application/json

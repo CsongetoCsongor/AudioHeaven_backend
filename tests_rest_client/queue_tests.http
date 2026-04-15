@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:8000/api
+@baseUrlServer = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
 @authToken = {{login.response.body.token}}
 
 ### Login
@@ -15,12 +16,12 @@ Content-Type: application/json
 ###
 
 ### Get users queue (Ordered by position (incrementing))
-GET http://localhost:8000/api/queue
+GET {{baseUrl}}/queue
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Add song to queue
-POST http://localhost:8000/api/queue/222
+POST {{baseUrl}}/queue/222
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
@@ -35,20 +36,20 @@ Accept: application/json
 }
 
 ### Get queue item based on position
-GET http://localhost:8000/api/queue/position/1
+GET {{baseUrl}}/queue/position/1
 Authorization: Bearer {{authToken}}
 
 ### Move queue item by position
-PATCH http://localhost:8000/api/queue/move/5/to/5
+PATCH {{baseUrl}}/queue/move/5/to/5
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Delete by position
-DELETE http://localhost:8000/api/queue/position/3
+DELETE {{baseUrl}}/queue/position/3
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### Clear my queue
-DELETE http://localhost:8000/api/queue/clear
+DELETE {{baseUrl}}/queue/clear
 Authorization: Bearer {{authToken}}
 Accept: application/json

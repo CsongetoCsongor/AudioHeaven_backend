@@ -1,4 +1,5 @@
 @baseUrl = https://jcloud02.jedlik.eu/csongeto.csongor/public
+@baseUrlServer = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
 @authToken = {{login.response.body.token}}
 
 ### Login
@@ -21,19 +22,19 @@ Authorization: Bearer {{authToken}}
 ###
 
 ### Search song by title
-GET http://localhost:8000/api/songs?search=impedit
+GET {{baseUrl}}/songs?search=impedit
 Accept: application/json
 
 ###
 
 ### Get a given amount of new songs
-GET http://localhost:8000/api/songs/new?count=2
+GET {{baseUrl}}/songs/new?count=2
 Accept: application/json
 
 ###
 
 ### Get a given amount of random songs
-GET http://localhost:8000/api/songs/random?count=2
+GET {{baseUrl}}/songs/random?count=2
 Accept: application/json
 
 ###
@@ -74,7 +75,7 @@ Content-Type: application/json
 ###
 
 ### Update song
-POST http://localhost:8000/api/songs/5
+POST {{baseUrl}}/songs/5
 Authorization: Bearer {{authToken}}
 Accept: application/json
 Content-Type: multipart/form-data; boundary=boundary
@@ -93,13 +94,13 @@ ugrasstilus2
 ###
 
 ### Get a songs data by id
-GET http://localhost:8000/api/songs/28
+GET {{baseUrl}}/songs/28
 Accept: application/json
 
 ###
 
 ### Delete song
-DELETE http://localhost:8000/api/songs/21
+DELETE {{baseUrl}}/songs/21
 Authorization: Bearer {{authToken}}
 Accept: application/json
 
