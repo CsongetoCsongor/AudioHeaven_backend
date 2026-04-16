@@ -87,8 +87,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $albumSongs = [
-            ['id' => 4, 'title_fn' => 'KingOfTheStack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
-            ['id' => 5, 'title_fn' => 'RiseOfNextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
+            ['id' => 4, 'title_fn' => 'kingOfTheStack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
+            ['id' => 5, 'title_fn' => 'riseOfNextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
         ];
 
 
@@ -140,7 +140,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $singles = [
-            ['id' => 12, 'title_fn' => 'Objectorientedlove', 'title' => 'Object Oriented Love', 'ext' => 'mp3', 'img_ext' => 'png'],
+            ['id' => 12, 'title_fn' => 'objectorientedlove', 'title' => 'Object Oriented Love', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
         $this->seedSongs($singles, $user->id);
