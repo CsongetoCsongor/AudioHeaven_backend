@@ -1,4 +1,4 @@
-@baseUrl = https://jcloud02.jedlik.eu/csongeto.csongor/public
+@baseUrl = http://localhost:8000/api
 @baseUrlServer = https://jcloud02.jedlik.eu/csongeto.csongor/public/api
 @authToken = {{login.response.body.token}}
 
@@ -94,7 +94,7 @@ ugrasstilus2
 ###
 
 ### Get a songs data by id
-GET {{baseUrl}}/songs/28
+GET {{baseUrl}}/songs/1
 Accept: application/json
 
 ###

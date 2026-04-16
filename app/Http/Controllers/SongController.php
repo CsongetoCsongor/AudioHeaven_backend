@@ -33,6 +33,8 @@ class SongController extends Controller
     {
         $user = User::find($id);
 
+
+
         if (!$user) {
             return response()->json(['message' => 'User not found!'], 404);
         }
@@ -93,7 +95,7 @@ class SongController extends Controller
             'plays' => 0,
             'length' => $duration,
             'stored_at' => 'app/public/' . $audioPath,
-            'cover' => 'storage/' . $coverPath,
+            'cover' => 'storage/public/' . $coverPath,
             'user_id' => $request->user()->id,
             'album_id' => null
         ]);
@@ -113,6 +115,10 @@ class SongController extends Controller
         }
 
         $path = storage_path($song->stored_at);
+        // $path = 'https://jcloud02.jedlik.eu/csongeto.csongor/' . $song->stored_at;
+        // $path = storage_path('app/public/defaults/seeding/defsongs/default_song_17_stride.mp3');
+        // return $path;
+        // return response()->json(['path' => $path]);
 
         if (!is_file($path)) {
             return response()->json(['error' => 'File not found'], 404);
@@ -124,8 +130,7 @@ class SongController extends Controller
         $size = filesize($path);
         $start = 0;
         $end = $size - 1;
-
-
+        
 
         $headers = [
             'Content-Type' => 'audio/mpeg',
@@ -215,6 +220,9 @@ class SongController extends Controller
     {
         $song = Song::with(['user:id,name', 'album:id,title'])->find($id);
 
+        // $path = 'https://jcloud02.jedlik.eu/csongeto.csongor/' . $song->stored_at;
+        // return response()->json(['path' => $path]);
+
         if (!$song) {
             return response()->json(['message' => 'Song not found!'], 404);
         }
@@ -252,7 +260,7 @@ class SongController extends Controller
 
         if ($request->hasFile('cover')) {
 
-            $oldCoverPath = str_replace('storage/', '', $song->cover);
+            $oldCoverPath = str_replace('storage/public/', '', $song->cover);
             if (!Str::startsWith($oldCoverPath, 'defaults')) {
                 Storage::disk('public')->delete($oldCoverPath);
             }
@@ -281,13 +289,13 @@ class SongController extends Controller
             return response()->json(['message' => 'Not your song!'], 403);
         }
 
-       $audioPath = str_replace('app/public/', '', $song->stored_at);
+       $audioPath = str_replace('storage/public/', '', $song->stored_at);
 
         if (!Str::startsWith($audioPath, 'defaults')) {
             Storage::disk('public')->delete($audioPath);
         }
 
-        $coverPath = str_replace('storage/', '', $song->cover);
+        $coverPath = str_replace('storage/public/', '', $song->cover);
         if (!Str::startsWith($coverPath, 'defaults')) {
             Storage::disk('public')->delete($coverPath);
         }

@@ -62,13 +62,13 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            $oldPfpPath = str_replace('storage/', '', $user->profile_picture);
+            $oldPfpPath = str_replace('storage/public/', '', $user->profile_picture);
             if (!Str::startsWith($oldPfpPath, 'defaults')) {
                 Storage::disk('public')->delete($oldPfpPath);
             }
 
             $newPfpPath = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $user->profile_picture = 'storage/' . $newPfpPath;
+            $user->profile_picture = 'storage/public/' . $newPfpPath;
         }
 
         $user->save();
@@ -82,7 +82,7 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        $profilePicturePath = str_replace('storage/', '', $user->profile_picture);
+        $profilePicturePath = str_replace('storage/public', '', $user->profile_picture);
         if (!Str::startsWith($profilePicturePath, 'defaults')) {
             Storage::disk('public')->delete($profilePicturePath);
         }
@@ -104,7 +104,7 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
-        $profilePicturePath = str_replace('storage/', '', $user->profile_picture);
+        $profilePicturePath = str_replace('storage/public', '', $user->profile_picture);
         if (!Str::startsWith($profilePicturePath, 'defaults')) {
             Storage::disk('public')->delete($profilePicturePath);
         }

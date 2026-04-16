@@ -4,7 +4,7 @@
 
 ### Login
 # @name login
-POST {{baseUrl}}/login
+POST {{baseUrlServer}}/login
 Accept: application/json
 Content-Type: application/json
 

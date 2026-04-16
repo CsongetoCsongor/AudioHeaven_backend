@@ -78,7 +78,7 @@ class AlbumController extends Controller
 
                 $album = Album::create([
                     'title' => $request->title,
-                    'album_cover' => 'storage/' . $albumCoverPath,
+                    'album_cover' => 'storage/public/' . $albumCoverPath,
                     'user_id' => $request->user()->id,
                 ]);
 
@@ -99,7 +99,7 @@ class AlbumController extends Controller
                         'plays' => 0,
                         'length' => $duration,
                         'stored_at' => 'app/public/' . $audioPath,
-                        'cover' => 'storage/' . $albumCoverPath,
+                        'cover' => 'storage/public/' . $albumCoverPath,
                         'user_id' => $request->user()->id,
                     ]);
                 }
@@ -171,7 +171,7 @@ class AlbumController extends Controller
 
             // Új borító mentése
             $newCoverPath = $request->file('album_cover')->store('covers', 'public');
-            $fullPath = 'storage/' . $newCoverPath;
+            $fullPath = 'storage/public/' . $newCoverPath;
 
             $album->album_cover = $fullPath;
 

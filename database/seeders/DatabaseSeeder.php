@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
-            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'profile_picture' => 'storage/public/defaults/default_profile_picture.png',
             'role' => 'admin',
         ]);
 
@@ -40,20 +40,20 @@ class DatabaseSeeder extends Seeder
             'name' => 'Teszt Elek',
             'email' => 'teszt@example.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_1.png',
+            'profile_picture' => 'storage/public/defaults/seeding/defprofilepictures/default_profile_picture_1.png',
             'role' => 'user',
         ]);
 
         $singles = [
-            ['id' => 1, 'title_fn' => 'Ominous', 'title' => 'Ominous', 'ext' => 'mp3', 'img_ext' => 'jpg'],
-            ['id' => 2, 'title_fn' => 'Outside', 'title' => 'Outside', 'ext' => 'mp3', 'img_ext' => 'jpg'],
-            ['id' => 3, 'title_fn' => 'Veil', 'title' => 'Veil', 'ext' => 'mp3', 'img_ext' => 'png'],
-            ['id' => 15, 'title_fn' => 'Stayvigilant', 'title' => 'Stay Vigilant', 'ext' => 'mp3', 'img_ext' => 'png'],
+            ['id' => 1, 'title_fn' => 'ominous', 'title' => 'Ominous', 'ext' => 'mp3', 'img_ext' => 'jpg'],
+            ['id' => 2, 'title_fn' => 'outside', 'title' => 'Outside', 'ext' => 'mp3', 'img_ext' => 'jpg'],
+            ['id' => 3, 'title_fn' => 'veil', 'title' => 'Veil', 'ext' => 'mp3', 'img_ext' => 'png'],
+            ['id' => 15, 'title_fn' => 'stayvigilant', 'title' => 'Stay Vigilant', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
         $this->seedSongs($singles, $user->id);
 
-        $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_16_17_18.jpg";
+        $albumCover = "storage/public/defaults/seeding/defalbumcovers/default_album_cover_16_17_18.jpg";
 
         $album = Album::create([
             'user_id' => $user->id,
@@ -62,8 +62,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $albumSongs = [
-            ['id' => 16, 'title_fn' => 'Ugrasstilus', 'title' => 'ugrasstilus', 'ext' => 'mp3'],
-            ['id' => 17, 'title_fn' => 'Stride', 'title' => 'stride', 'ext' => 'mp3'],
+            ['id' => 16, 'title_fn' => 'ugrasstilus', 'title' => 'ugrasstilus', 'ext' => 'mp3'],
+            ['id' => 17, 'title_fn' => 'stride', 'title' => 'stride', 'ext' => 'mp3'],
             ['id' => 18, 'title_fn' => 'altered', 'title' => 'altered', 'ext' => 'mp3'],
         ];
 
@@ -73,12 +73,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'The React Reckoning',
             'email' => 'thereactreckoning@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_2.jpg',
+            'profile_picture' => 'storage/public/defaults/seeding/defprofilepictures/default_profile_picture_2.jpg',
             'role' => 'user',
         ]);
 
 
-        $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_4_5.png";
+        $albumCover = "storage/public/defaults/seeding/defalbumcovers/default_album_cover_4_5.png";
 
         $album = Album::create([
             'user_id' => $user->id,
@@ -87,8 +87,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $albumSongs = [
-            ['id' => 4, 'title_fn' => 'KingOfTheStack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
-            ['id' => 5, 'title_fn' => 'RiseOfNextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
+            ['id' => 4, 'title_fn' => 'kingofthestack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
+            ['id' => 5, 'title_fn' => 'riseofnextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
         ];
 
 
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'ThugCode',
             'email' => 'thugcode@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_3.png',
+            'profile_picture' => 'storage/public/defaults/seeding/defprofilepictures/default_profile_picture_3.png',
             'role' => 'user',
         ]);
 
@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
 
         $this->seedSongs($singles, $user->id);
 
-        $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_6_7_8_9_10_11.png";
+        $albumCover = "storage/public/defaults/seeding/defalbumcovers/default_album_cover_6_7_8_9_10_11.png";
 
         $album = Album::create([
             'user_id' => $user->id,
@@ -120,12 +120,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $albumSongs = [
-            ['id' => 6, 'title_fn' => 'Codeignite', 'title' => 'Code Ignite', 'ext' => 'mp3'],
-            ['id' => 7, 'title_fn' => 'Laravellifestyle', 'title' => 'Laravel Lifestyle', 'ext' => 'mp3'],
-            ['id' => 8, 'title_fn' => 'Greenbaranthem', 'title' => 'Green Bar Anthem', 'ext' => 'mp3'],
-            ['id' => 9, 'title_fn' => 'Greenbaranthem2', 'title' => 'Green Bar Anthem 2', 'ext' => 'mp3'],
-            ['id' => 10, 'title_fn' => 'Restrage', 'title' => 'Rest Rage', 'ext' => 'mp3'],
-            ['id' => 11, 'title_fn' => 'Mauimadness', 'title' => 'Maui Madness', 'ext' => 'mp3'],
+            ['id' => 6, 'title_fn' => 'codeignite', 'title' => 'Code Ignite', 'ext' => 'mp3'],
+            ['id' => 7, 'title_fn' => 'laravellifestyle', 'title' => 'Laravel Lifestyle', 'ext' => 'mp3'],
+            ['id' => 8, 'title_fn' => 'greenbaranthem', 'title' => 'Green Bar Anthem', 'ext' => 'mp3'],
+            ['id' => 9, 'title_fn' => 'greenbaranthem2', 'title' => 'Green Bar Anthem 2', 'ext' => 'mp3'],
+            ['id' => 10, 'title_fn' => 'restrage', 'title' => 'Rest Rage', 'ext' => 'mp3'],
+            ['id' => 11, 'title_fn' => 'mauimadness', 'title' => 'Maui Madness', 'ext' => 'mp3'],
         ];
 
         $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
@@ -135,17 +135,17 @@ class DatabaseSeeder extends Seeder
             'name' => 'Cyber Lovers',
             'email' => 'cyberlovers@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_4.png',
+            'profile_picture' => 'storage/public/defaults/seeding/defprofilepictures/default_profile_picture_4.png',
             'role' => 'user',
         ]);
 
         $singles = [
-            ['id' => 12, 'title_fn' => 'Objectorientedlove', 'title' => 'Object Oriented Love', 'ext' => 'mp3', 'img_ext' => 'png'],
+            ['id' => 12, 'title_fn' => 'objectorientedlove', 'title' => 'Object Oriented Love', 'ext' => 'mp3', 'img_ext' => 'png'],
         ];
 
         $this->seedSongs($singles, $user->id);
 
-        $albumCover = "storage/defaults/seeding/defalbumcovers/default_album_cover_13_14.png";
+        $albumCover = "storage/public/defaults/seeding/defalbumcovers/default_album_cover_13_14.png";
 
         $album = Album::create([
             'user_id' => $user->id,
@@ -155,8 +155,8 @@ class DatabaseSeeder extends Seeder
 
         // 4. Album zenéi (ID: 13 és 14)
         $albumSongs = [
-            ['id' => 13, 'title_fn' => 'Hotreloadheart', 'title' => 'Hot Reload Heart', 'ext' => 'mp3'],
-            ['id' => 14, 'title_fn' => 'Thecomponenttomyheart', 'title' => 'The Component To My Heart', 'ext' => 'mp3'],
+            ['id' => 13, 'title_fn' => 'hotreloadheart', 'title' => 'Hot Reload Heart', 'ext' => 'mp3'],
+            ['id' => 14, 'title_fn' => 'thecomponenttomyheart', 'title' => 'The Component To My Heart', 'ext' => 'mp3'],
         ];
 
         $this->seedSongs($albumSongs, $user->id, $album->id, $albumCover);
@@ -166,7 +166,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Lil Sql',
             'email' => 'lilsql@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_5.png',
+            'profile_picture' => 'storage/public/defaults/seeding/defprofilepictures/default_profile_picture_5.png',
             'role' => 'user',
         ]);
 
@@ -181,7 +181,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'mongoca$h',
             'email' => 'mongocash@audioheaven.com',
             'password' => Hash::make('password123'),
-            'profile_picture' => 'storage/defaults/seeding/defprofilepictures/default_profile_picture_6.png',
+            'profile_picture' => 'storage/public/defaults/seeding/defprofilepictures/default_profile_picture_6.png',
             'role' => 'user',
         ]);
 
@@ -221,7 +221,7 @@ class DatabaseSeeder extends Seeder
                 'plays'     => rand(10, 500),
                 'length'    => $this->getAudioDuration("public/{$relativeSongPath}"),
                 'stored_at' => "app/public/{$relativeSongPath}",
-                'cover'     => $albumId == null ? "storage/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}" : $albumCover,
+                'cover'     => $albumId == null ? "storage/public/defaults/seeding/defsongcovers/default_song_cover_{$s['id']}.{$s['img_ext']}" : $albumCover,
                 'album_id'  => $albumId,
             ]);
         }

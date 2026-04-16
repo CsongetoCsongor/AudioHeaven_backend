@@ -30,7 +30,7 @@ class AuthController extends Controller
                 'name' => $fields['username'],
                 'email' => $fields['email'],
                 'password' => Hash::make($fields['password']),
-                'profile_picture' => 'storage/' . $path,
+                'profile_picture' => 'storage/public/' . $path,
                 'role' => 'user'
             ]);
 

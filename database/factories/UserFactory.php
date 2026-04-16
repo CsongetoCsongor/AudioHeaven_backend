@@ -27,7 +27,7 @@ class UserFactory extends Factory
         return [
             'name' => $name,
             'email' => fake()->unique()->safeEmail(),
-            'profile_picture' => 'storage/defaults/default_profile_picture.png',
+            'profile_picture' => 'storage/public/defaults/default_profile_picture.png',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'role' =>'user',
