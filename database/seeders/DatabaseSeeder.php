@@ -87,8 +87,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $albumSongs = [
-            ['id' => 4, 'title_fn' => 'kingOfTheStack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
-            ['id' => 5, 'title_fn' => 'riseOfNextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
+            ['id' => 4, 'title_fn' => 'kingofthestack', 'title' => 'King Of The Stack', 'ext' => 'mp3'],
+            ['id' => 5, 'title_fn' => 'riseofnextjs', 'title' => 'Rise Of Next.js', 'ext' => 'mp3'],
         ];
 
 
