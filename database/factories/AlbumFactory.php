@@ -18,7 +18,7 @@ class AlbumFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
-            'album_cover' => 'storage/defaults/default_album_cover.png',
+            'album_cover' => 'storage/public/defaults/default_album_cover.png',
             'user_id' => \App\Models\User::factory(),
         ];
     }

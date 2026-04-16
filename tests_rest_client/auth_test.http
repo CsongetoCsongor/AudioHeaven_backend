@@ -4,7 +4,7 @@
 
 
 ### Registration
-POST {{baseUrl}}/register
+POST {{baseUrlServer}}/register
 Accept: application/json
 Content-Type: multipart/form-data; boundary=boundary
 
