@@ -24,3 +24,5 @@ post_max_size = 120M
 memory_limit = 256M
 
 php artisan migrate:fresh --seed
+
+php artisan vendor:publish --tag=laravel-notifications
