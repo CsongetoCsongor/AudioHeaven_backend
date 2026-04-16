@@ -28,10 +28,10 @@ class VerifyEmailController extends Controller
             $user->markEmailAsVerified();
             event(new \Illuminate\Auth\Events\Verified($user));
             // return response()->json(['message' => 'Email verified successfully!']);
-            return redirect('http://localhost:8080/home?verification=success');
+            return redirect('https://audio-heaven.vercel.app/home?verification=success');
         }
         catch (\Throwable $th) {
-            return redirect('http://localhost:8080/home?verification=error');
+            return redirect('https://audio-heaven.vercel.app/home?verification=error');
         }
     }
 

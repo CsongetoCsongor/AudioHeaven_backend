@@ -33,7 +33,7 @@ Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'
 
 // WITH FRONTEND:
 Route::get('/reset-password/{token}', function (string $token) {
-    return redirect('http://localhost:8080/reset?token=' . $token);
+    return redirect('https://audio-heaven.vercel.app/reset?token=' . $token);
 })->name('password.reset');
 
 // // WITHOUT FRONTEND:
