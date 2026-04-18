@@ -1,0 +1,2198 @@
+openapi: 3.0.0
+info:
+  title: AudioHeaven
+  description: Documentation for AudioHeaven API, a music streaming service built with Laravel.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000/api
+    description: Local server
+  - url: https://jcloud02.jedlik.eu/csongeto.csongor/public/api
+    description: Hosted at Jedlik Cloud
+
+components:
+  securitySchemes:
+    sanctum:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Laravel Sanctum (Personal Access Token) használata. A 'Bearer ' előtagot a rendszer automatikusan hozzáadja."
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Kiss Janos"
+        email:
+          type: string
+          example: "janos@example.com"
+        profile_picture:
+          type: string
+          example: "storage/profile_pictures/abc.jpg"
+        role:
+          type: string
+          example: "user"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    UserWithEmailVerifiedAt:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Kiss Janos"
+        email:
+          type: string
+          example: "janos@example.com"
+        email_verified_at:
+          type: string
+          format: date-time
+        profile_picture:
+          type: string
+          example: "storage/profile_pictures/abc.jpg"
+        role:
+          type: string
+          example: "user"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    UserDetail:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        profile_picture: { type: string }
+        email: { type: string }
+        created_at: { type: string, format: date-time }
+
+    Song:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Single - voluptatem necessitatibus"
+        plays:
+          type: integer
+          example: 825
+        length:
+          type: integer
+          description: "A dal hossza másodpercben."
+          example: 164
+        stored_at:
+          type: string
+          example: "app/public/defaults/default_song_1.mp3"
+        cover:
+          type: string
+          example: "storage/defaults/default_song_cover.png"
+        user_id:
+          type: integer
+          example: 3
+        album_id:
+          type: integer
+          nullable: true
+          example: null
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Song2:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        plays: { type: integer }
+        cover: { type: string }
+        stored_at: { type: string }
+        user_id: { type: integer }
+        album_id: { type: integer, nullable: true }
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-
+
+    Album:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Album - ut ut"
+        album_cover:
+          type: string
+          example: "storage/defaults/default_album_cover.png"
+        user_id:
+          type: integer
+          example: 3
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        # songs_count:
+        #   type: integer
+        #   description: Csak a /random végpontnál jelenik meg.
+        # songs:
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/Song'
+
+    Album2:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        album_cover:
+          type: string
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Song2'
+
+    AlbumDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Teszt Album 14"
+        album_cover:
+          type: string
+          example: "app/public/covers/filename.jpg"
+        user_id:
+          type: integer
+          example: 2
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 2
+            name:
+              type: string
+              example: "Teszt Felhasználó"
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-10T10:12:19.000000Z"
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Song'
+
+    SongWithUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        plays:
+          type: integer
+        stored_at:
+          type: string
+        cover:
+          type: string
+        user_id:
+          type: integer
+        album_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    SongWithDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        title:
+          type: string
+        plays:
+          type: integer
+          example: 993
+        length:
+          type: integer
+          description: "Duration in seconds."
+          example: 238
+        stored_at:
+          type: string
+          example: "app/public/defaults/default_song_2.mp3"
+        cover:
+          type: string
+          example: "storage/defaults/default_album_cover.png"
+        user_id:
+          type: integer
+          example: 3
+        album_id:
+          type: integer
+          nullable: true
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+        album:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+              example: 1
+            title:
+              type: string
+
+    Playlist:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PlaylistActionResponse1:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Song succesfully added to playlist!"
+        playlist:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 4
+            title:
+              type: string
+              example: "Legjobb zenék"
+            user_id:
+              type: integer
+              example: 2
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-03-12T08:09:02.000000Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2026-03-12T08:09:02.000000Z"
+            songs:
+              type: array
+              items:
+                $ref: '#/components/schemas/PlaylistSong'
+
+    PlaylistActionResponse2:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Song succesfully deleted from playlist!"
+        playlist:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 4
+            title:
+              type: string
+              example: "Legjobb zenék"
+            user_id:
+              type: integer
+              example: 2
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-03-12T08:09:02.000000Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2026-03-12T08:09:02.000000Z"
+            songs:
+              type: array
+              items:
+                $ref: '#/components/schemas/PlaylistSong'
+
+    PlaylistSong:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: "New title 2"
+        plays:
+          type: integer
+          example: 8
+        stored_at:
+          type: string
+          example: "app/public/songs/filename.mp3"
+        cover:
+          type: string
+          example: "storage/covers/filename.jpg"
+        user_id:
+          type: integer
+          example: 2
+        album_id:
+          type: integer
+          nullable: true
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pivot:
+          type: object
+          description: "A kapcsolótábla (playlist_song) adatai."
+          properties:
+            playlist_id:
+              type: integer
+              example: 4
+            song_id:
+              type: integer
+              example: 2
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+
+    QueueItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        position:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+        song_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        song:
+          $ref: '#/components/schemas/SongWithUser'
+
+    PlaylistWithSongs:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: "Legjobb zenék"
+        user_id:
+          type: integer
+          example: 2
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-12T08:09:02.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-12T08:09:02.000000Z"
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SongWithPivot'
+
+    PlaylistWithSongs2:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: "Legjobb zenék"
+        user_id:
+          type: integer
+          example: 2
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-03-12T08:09:02.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-03-12T08:09:02.000000Z"
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SongWithPivot2'
+
+    SongWithPivot:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: "Dal címe"
+        plays:
+          type: integer
+          example: 10
+        stored_at:
+          type: string
+          example: "app/public/songs/file.mp3"
+        cover:
+          type: string
+          example: "storage/covers/img.jpg"
+        user_id:
+          type: integer
+        album_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pivot:
+          type: object
+          properties:
+            playlist_id:
+              type: integer
+            song_id:
+              type: integer
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+
+    SongWithPivot2:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: "Dal címe"
+        plays:
+          type: integer
+          example: 10
+        stored_at:
+          type: string
+          example: "app/public/songs/file.mp3"
+        cover:
+          type: string
+          example: "storage/covers/img.jpg"
+        user_id:
+          type: integer
+        album_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pivot:
+          type: object
+          properties:
+            playlist_id:
+              type: integer
+            song_id:
+              type: integer
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+
+    PlaylistDetailedResponse:
+        type: object
+        properties:
+          id: { type: integer }
+          title: { type: string }
+          user:
+            type: object
+            properties:
+              id: { type: integer }
+              name: { type: string }
+          created_at: { type: string, format: date-time }
+          songs:
+            type: array
+            items:
+              $ref: '#/components/schemas/SongWithPivotAndDetails'
+
+
+
+    SongWithPivotAndDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Single - laborum omnis"
+        plays:
+          type: integer
+          example: 264
+        length:
+          type: integer
+          description: "A dal hossza másodpercben."
+          example: 263
+        stored_at:
+          type: string
+          example: "app/public/defaults/default_song_1.mp3"
+        cover:
+          type: string
+          example: "storage/defaults/default_song_cover.png"
+        user_id:
+          type: integer
+          example: 3
+        album_id:
+          type: integer
+          nullable: true
+          example: null
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        pivot:
+          $ref: '#/components/schemas/PlaylistSongPivot'
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          example:
+            id: 3
+            name: "Prof. Lonzo Kub"
+        album:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+          example:
+            id: 1
+            title: "Album - aliquam sed"
+
+    PlaylistSongPivot:
+      type: object
+      description: "A kapcsolótábla adatai (mikor adták hozzá a dalt a listához)."
+      properties:
+        playlist_id:
+          type: integer
+          example: 2
+        song_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PlaylistDetailResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: "Legjobb zenék"
+        description:
+          type: string
+          nullable: true
+          example: "Válogatás a kedvenc dalaimból."
+        user_id:
+          type: integer
+          example: 2
+        creator_name:
+          type: string
+          example: "Teszt Felhasználó"
+        created_at:
+          type: string
+          format: date-time
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistSongItem'
+
+    UserProfileResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserDetailed'
+        songs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SongWithUser'
+        albums:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumWithUser'
+
+    UserDetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        name:
+          type: string
+          example: "Miss Asa Walker DDS"
+        profile_picture:
+          type: string
+          example: "storage/defaults/default_profile_picture.png"
+        email:
+          type: string
+          format: email
+          example: "hansen.lexus@example.org"
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2026-03-23T09:57:05.000000Z"
+        role:
+          type: string
+          example: "user"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PlaylistSongItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        duration:
+          type: string
+          nullable: true
+          description: "A dal hossza (ha definiálva van a migration-ben)."
+        cover:
+          type: string
+        stored_at:
+          type: string
+        user:
+          type: object
+          properties:
+            id: { type: integer }
+            name: { type: string }
+        album:
+          type: string
+          example: "Album címe vagy 'Nincs album'"
+        album_id:
+          type: integer
+          nullable: true
+
+    AlbumWithUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        album_cover:
+          type: string
+          example: "storage\/defaults\/default_album_cover.png"
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+
+    PaginatedHistoryResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryItem'
+        first_page_url:
+          type: string
+          example: "http://localhost:8000/api/history?page=1"
+        from:
+          type: integer
+          nullable: true
+          example: 1
+        last_page:
+          type: integer
+          example: 1
+        last_page_url:
+          type: string
+          example: "http://localhost:8000/api/history?page=1"
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              url: { type: string, nullable: true }
+              label: { type: string, example: "1" }
+              active: { type: boolean, example: true }
+        next_page_url:
+          type: string
+          nullable: true
+        path:
+          type: string
+          example: "http://localhost:8000/api/history"
+        per_page:
+          type: integer
+          example: 10
+        prev_page_url:
+          type: string
+          nullable: true
+        to:
+          type: integer
+          nullable: true
+          example: 8
+        total:
+          type: integer
+          example: 8
+
+    HistoryItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 20
+        user_id:
+          type: integer
+          example: 2
+        song_id:
+          type: integer
+          example: 2
+        album_id:
+          type: integer
+          nullable: true
+          example: 1
+        playlist_id:
+          type: integer
+          nullable: true
+          example: 2
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        song:
+          $ref: '#/components/schemas/SongWithUser'
+        album:
+          nullable: true
+          type: object
+          properties:
+            id: { type: integer }
+            title: { type: string }
+            album_cover: { type: string }
+            user_id: { type: integer }
+            created_at: { type: string, format: date-time }
+            updated_at: { type: string, format: date-time }
+        playlist:
+          nullable: true
+          type: object
+          properties:
+            id: { type: integer }
+            title: { type: string }
+            user_id: { type: integer }
+            created_at: { type: string, format: date-time }
+            updated_at: { type: string, format: date-time }
+
+paths:
+  /register:
+    post:
+      tags:
+        - Auth
+      summary: Register new user
+      description: Create new user and token
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                profile_picture:
+                  type: string
+                  format: binary
+                  description: (jpg, jpeg, png, max 10MB).
+      responses:
+        '201':
+          description: User registered successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    example: "1|NmY4...token...xyz"
+        '422':
+          description: Validation error (eg. taken username/email, required field not filled).
+        '500':
+          description: Unknown error
+
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      description: Validates credentials and generates new token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "janos@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+      responses:
+        '200':
+          description: Successful login.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserWithEmailVerifiedAt'
+                  token:
+                    type: string
+                    example: "2|AbC...token...123"
+        '401':
+          description: Incorrect email or password / required field not filled.
+
+  /logout:
+    post:
+      tags:
+        - Auth
+      summary: Log user out
+      description: Revokes all of the tokens of the user
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Succesful logout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logged out successfully!"
+        '401':
+          description: Unauthenticated
+
+  /email/verification-notification:
+    post:
+      tags:
+        - E-mail verification
+      summary: Resend verification email
+      description: Sends a new verification link to the logged-in user. Limited to 6 requests per minute.
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Email sent.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Verification link sent!"
+
+  /email/verify/{id}/{hash}:
+    get:
+      tags:
+        - E-mail verification
+      summary: Verify email address
+      description: Validates the hash and marks the user's email as verified.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: hash
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully verified.
+        '302':
+          description: Redirect to frontend if already verified.
+        '403':
+          description: Invalid hash or signature.
+
+  /forgot-password:
+    post:
+      tags:
+        - Password reset
+      summary: Request reset link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Link sent.
+
+  reset-password/{token}:
+    get:
+      tags:
+        - Password reset
+      summary: Reset password redirect (only acts as a bridge)
+      description: |
+        This endpoint is called when the user clicks the 'Reset Password' button in their email.
+        It extracts the token and redirects the user to the frontend application.
+        It is not intended to be called by frontend directly.
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: The reset token provided in the email link.
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirects to the frontend password reset page.
+          headers:
+            Location:
+              schema:
+                type: string
+                example: "http://localhost:3000/reset-password?token=abc123token"
+
+  /reset-password:
+    post:
+      tags:
+        - Password reset
+      summary: Reset password
+      description: Resets the password using the token sent via email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, email, password, password_confirmation]
+              properties:
+                token: { type: string }
+                password: { type: string, minLength: 8 }
+                password_confirmation: { type: string }
+      responses:
+        '200':
+          description: Password reset successful.
+
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: List and search users by name
+      parameters:
+        - name: search
+          in: query
+          description: Search parameter
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    name: { type: string }
+                    profile_picture: { type: string, example: storage/defaults/default_profile_picture.png }
+
+  /users/random:
+    get:
+      tags:
+        - Users
+      summary: Get a given amount of random users
+      parameters:
+        - name: count
+          in: query
+          description: Number of random users.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Véletlenszerű felhasználók listája.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    name: { type: string }
+                    profile_picture: { type: string, example: storage/defaults/default_profile_picture.png }
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get user profile by id
+      description: Returns given users data, including uploaded songs and albums.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 2
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '404':
+          description: User not found.
+
+  /me:
+    get:
+      tags:
+        - Users
+      summary: Get currently loggin in users data
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithEmailVerifiedAt'
+        '401':
+          description: Unauthenticated
+
+  /user:
+    delete:
+      tags:
+        - Users
+      summary: Delete currently loggen in users profile
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "User account deleted successfully." }
+        '401':
+          description: Unauthenticated
+    post:
+      tags:
+        - Users
+      summary: Update user profile
+      description: Updates the authenticated user's profile picture. Deletes the previous image from storage unless it was a default.
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - profile_picture
+              properties:
+                profile_picture:
+                  type: string
+                  format: binary
+                  description: New profile picture file (jpg, jpeg, png, max 10MB).
+      responses:
+        '200':
+          description: Profile updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserWithEmailVerifiedAt'
+        '401':
+          description: Unauthenticated
+        '422':
+          description: Required field not filled
+
+  /admin/users/{id}:
+    delete:
+      tags:
+        - Admin
+      summary:  Delete user profile by id
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully deleted by admin
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "User #5 has been deleted by Admin." }
+        '404':
+          description: User not found
+        '403':
+          description: Unauthorized.
+
+
+
+  /songs:
+    get:
+      tags:
+        - Songs
+      summary: List all songs or search by title
+      description: Returns a list of all songs. Use the 'search' query parameter to filter by song title.
+      parameters:
+        - name: search
+          in: query
+          description: Partial title to search for.
+          required: false
+          schema:
+            type: string
+            example: "string"
+      responses:
+        '200':
+          description: A list of filtered or all songs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SongWithDetails'
+    post:
+      tags:
+        - Songs
+      summary: Upload a new song
+      description: Uploads an audio file and cover image, calculates duration, and saves song metadata.
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - title
+                - audio
+                - cover
+              properties:
+                title:
+                  type: string
+                  example: "Zene teszt333"
+                audio:
+                  type: string
+                  format: binary
+                  description: "Audio file (mp3, wav, ogg, max 20MB)"
+                cover:
+                  type: string
+                  format: binary
+                  description: "Cover image (jpg, png, max 10MB)"
+                album_id:
+                  type: integer
+                  nullable: true
+                  description: "Valid album ID from the database"
+      responses:
+        '201':
+          description: Song created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  song:
+                    $ref: '#/components/schemas/Song'
+        '422':
+          description: Validation error (e.g., wrong file format or missing fields).
+
+  /songs/random:
+    get:
+      tags:
+        - Songs
+      summary: Get a given amount of random songs
+      parameters:
+        - name: count
+          in: query
+          description: The number of returned songs
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: List of random songs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SongWithDetails'
+
+  /songs/{id}:
+    get:
+      tags:
+        - Songs
+      summary: Returns the a song by given id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Properties of the song
+          content:
+            application/json:
+              schema:
+                schema:
+                $ref: '#/components/schemas/SongWithDetails'
+        '404':
+          description: Song not found!
+    post:
+      tags:
+        - Songs
+      summary: Update a song
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                cover:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Song updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Song updated succesfully"
+                  song:
+                    $ref: '#/components/schemas/Song2'
+        '403':
+          description: Not the users song
+        '404':
+          description: Song not found
+
+    delete:
+      tags:
+        - Songs
+      summary: Delete song
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "Song deleted successfully." }
+
+  /songs/{id}/log-play:
+    post:
+      tags:
+        - Songs
+      summary: Logging a play
+      description: Increases the number of plays and logs it to the listening history
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playlist_id:
+                  type: integer
+                  nullable: true
+                  description: Opcionális lejátszási lista azonosító.
+      responses:
+        '200':
+          description: Logged succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "Play logged successfully" }
+        '404':
+          description: Song not found
+
+  /play/{id}:
+    get:
+      tags:
+        - Songs
+      summary: Stream audio
+      description: Streams the audiofile based on the stored_at property of the song, which has the given id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '206':
+          description: Partial data (streaming).
+        '404':
+          description: Song not found / File not found
+
+
+
+
+  /users/{id}/songs:
+    get:
+      tags:
+        - Songs
+      summary: List all of the songs of the given user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Songs of the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SongWithUser'
+        '404':
+          description: User not found
+
+  /songs/new:
+    get:
+      tags:
+        - Songs
+      summary: Get latest songs
+      description: Retrieves the most recently uploaded songs.
+      parameters:
+        - name: count
+          in: query
+          description: Number of items to return.
+          required: false
+          schema:
+            type: integer
+            default: 10
+            example: 5
+      responses:
+        '200':
+          description: A list of the newest songs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SongWithUser'
+
+  /albums:
+    get:
+      tags:
+        - Albums
+      summary: List all albums or search
+      description: Returns a list of albums. The search parameter checks both album titles and user names.
+      parameters:
+        - name: search
+          in: query
+          description: Search term for album title or artist name.
+          required: false
+          schema:
+            type: string
+            example: "string"
+      responses:
+        '200':
+          description: A list of albums.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlbumWithUser'
+
+    post:
+      tags:
+        - Albums
+      summary: Create new album (with songs)
+      description: Creates the album with songs
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - title
+                - album_cover
+                - songs
+              properties:
+                title:
+                  type: string
+                album_cover:
+                  type: string
+                  format: binary
+                  description: Cover of the album (jpg, jpeg, png max 10MB).
+                "songs[0][title]":
+                  type: string
+                  example: "Első dal címe"
+                "songs[0][audio]":
+                  type: string
+                  format: binary
+                "songs[1][title]":
+                  type: string
+                  example: "Második dal címe"
+                "songs[1][audio]":
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Album and its songs created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album2'
+        '422':
+          description: Validation error (e.g. missing data, wrong file format)
+        '500':
+          description: Server error during the upload
+
+  /albums/random:
+    get:
+      tags:
+        - Albums
+      summary: Get a given amount of random albums
+      parameters:
+        - name: count
+          in: query
+          description: Number of random albums
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: List of random albums
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlbumWithUser'
+
+
+  /albums/{id}:
+      get:
+        tags:
+          - Albums
+        summary: Get album by id
+        description: Returns the properties of the album and its songs
+        parameters:
+          - name: id
+            in: path
+            description: The albums id
+            required: true
+            schema:
+              type: integer
+              example: 1
+        responses:
+          '200':
+            description: The properties of the album.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AlbumDetail'
+          '404':
+            description: Album not found
+
+      post:
+        tags:
+          - Albums
+        summary: Update an album
+        description: Update title or cover. Updating the cover also updates all linked songs' covers.
+        security:
+          - sanctum: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: integer
+        requestBody:
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: "New album title"
+                  album_cover:
+                    type: string
+                    format: binary
+        responses:
+          '200':
+            description: Update successful.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message: { type: string, example: Album updated successfully! }
+                    album:
+                      $ref: '#/components/schemas/Album2'
+          '403':
+            description: Unauthorized ownership.
+      delete:
+        tags:
+          - Albums
+        summary: Delete an album and its songs
+        description: Deletes the album record, all associated song records, and their physical files (audio and covers) unless they are marked as default.
+        security:
+          - sanctum: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Successful deletion.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "Album, songs and non-default files deleted successfully!"
+          '403':
+            description: Forbidden - Ownership check failed.
+          '404':
+            description: Album not found.
+
+  /users/{id}/albums:
+    get:
+      tags:
+        - Albums
+      summary: Get albums by a specific user
+      description: Retrieves all albums created by the user, including the songs within those albums.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of albums with their songs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlbumDetail'
+        '404':
+          description: User not found.
+
+
+
+  /playlists:
+    get:
+      tags:
+        - Playlists
+      summary: Logged in users playlists
+      description: Returns all of the logged in users playlists, with their songs and the songs artist
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Th users playlists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlaylistWithSongs'
+        '401':
+          description: Unauthenticated
+
+    post:
+      tags:
+        - Playlists
+      summary: Create new playlist
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: "Favourite songs"
+      responses:
+        '201':
+          description: Playlist created succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: PLaylist created succesfully! }
+                  playlist: { $ref: '#/components/schemas/Playlist' }
+  /playlists/{id}:
+    get:
+      tags:
+        - Playlists
+      summary: Get a single playlist
+      description: Retrieves playlist details including the owner and all songs with their respective artists and albums.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful retrieval of the playlist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistDetailedResponse'
+        '404':
+          description: Playlist not found.
+    delete:
+      tags:
+        - Playlists
+      summary: Delete a playlist
+      description: Deletes the playlist record. Associated songs remain in the system but the links to this playlist are removed.
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful deletion.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Playlist deleted successfully!"
+        '403':
+          description: Forbidden - You do not own this playlist.
+        '404':
+          description: Playlist not found.
+
+
+
+  /playlists/{id}/songs/{songId}:
+    post:
+      tags:
+        - Playlists
+      summary: Add a song to a playlist
+      description: Links a song to a playlist. Includes checks for ownership and duplicates.
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The Playlist ID
+          schema:
+            type: integer
+        - name: songId
+          in: path
+          required: true
+          description: The Song ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Song added.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Song successfully added to playlist!
+                  playlist:
+                    $ref: '#/components/schemas/PlaylistWithSongs2'
+        '403':
+          description: Not the owner of the playlist.
+        '404':
+          description: Song not found / Playlist not found
+        '409':
+          description: Song already exists in this playlist.
+
+    delete:
+      tags:
+        - Playlists
+      summary: Remove a song from a playlist
+      description: Detaches a song from the specified playlist. Requires ownership of the playlist.
+      security:
+        - sanctum: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Playlist ID
+          schema:
+            type: integer
+        - name: songId
+          in: path
+          required: true
+          description: Song ID to remove
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Song removed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Song successfully deleted from playlist!
+                  playlist:
+                    $ref: '#/components/schemas/PlaylistWithSongs2'
+        '403':
+          description: Unauthorized - Not your playlist.
+        '404':
+          description: Playlist not found or song not in playlist.
+
+  /queue:
+    get:
+      tags:
+        - Queue
+      summary: Get logged in users queue
+      description: Returns users queue ordered by position (incrementing).
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: The queues content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queue:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QueueItem'
+
+  /queue/{songId}:
+    post:
+      tags:
+        - Queue
+      summary: Add song (to the end of the queue)
+      security:
+        - sanctum: []
+      parameters:
+        - name: songId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: Song succesfully added to queue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Song successfully added to queue!
+                  queue_item:
+                    $ref: '#/components/schemas/QueueItem'
+        '404':
+          description: Song not found!
+
+  /queue/store-many:
+    post:
+      tags:
+        - Queue
+      summary: Add multiple songs to queue
+      description: Adds an array of songs to the end of the user's playback queue, calculating positions automatically.
+      security:
+        - sanctum: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - song_ids
+              properties:
+                song_ids:
+                  type: array
+                  items:
+                    type: integer
+                  example: [10, 20, 5]
+      responses:
+        '201':
+          description: Songs added successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Songs successfully added to queue!"
+                  queue:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QueueItem'
+
+  /queue/position/{position}:
+    get:
+      tags:
+        - Queue
+      summary: Get a queue item based on position
+      security:
+        - sanctum: []
+      parameters:
+        - name: position
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The content of the queue item
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/QueueItem'
+        '404':
+          description: No queue item in given position
+
+    delete:
+      tags:
+        - Queue
+      summary: Delete queue item based on position
+      description: Deletes queue item and shifts the rest of the queues position (fills the gap)
+      security:
+        - sanctum: []
+      parameters:
+        - name: position
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful deletion and shifting
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Succesfully deleted queue item from position 3!"
+
+  /queue/move/{oldPosition}/to/{newPosition}:
+    patch:
+      tags:
+        - Queue
+      summary: Relocate queue item
+      description: Relocates queue item and shifts queue accordingly
+      security:
+        - sanctum: []
+      parameters:
+        - name: oldPosition
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: newPosition
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succesful relocation, returns whole queue of the user / Position did not change
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "Succesfully updated queue item from position: 2 to position: 5!" }
+                  queue:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QueueItem'
+        '404':
+          description: Queue item not found in old position
+
+  /queue/clear:
+    delete:
+      tags:
+        - Queue
+      summary: Clear uses queue
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Queue cleared succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: "Queue cleared succesfully!" }
+
+  /history:
+    get:
+      tags:
+        - History
+      summary: Get users listening history
+      description: Returns paginated response of users listening history, in decrementing order by the date of addition.
+      security:
+        - sanctum: []
+      responses:
+        '200':
+          description: Users paginated listening history, with the songs creator, album and the playlist in which it was listened by
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HistoryItem'
+                  current_page: { type: integer, example: 1 }
+                  last_page: { type: integer, example: 5 }
+                  per_page: { type: integer, example: 10 }
+                  total: { type: integer, example: 48 }
+                  next_page_url: { type: string, nullable: true }
+                  prev_page_url: { type: string, nullable: true }
+
+
+
+
+
+
