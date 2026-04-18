@@ -141,80 +141,74 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
 {
-        // 1. Album megkeresése
-        $album = Album::findOrFail($id);
+    $album = Album::findOrFail($id);
 
-        // 2. Jogosultság ellenőrzése
-        if ($album->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Not your album!'], 403);
-        }
+    if ($album->user_id !== auth()->id()) {
+        return response()->json(['message' => 'Not your album!'], 403);
+    }
 
-        // 3. Validáció
-        $fields = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'album_cover' => 'sometimes|required|image|mimes:jpg,jpeg,png|max:10000',
-        ]);
+    $fields = $request->validate([
+        'title' => 'sometimes|required|string|max:255',
+        'album_cover' => 'sometimes|required|image|mimes:jpg,jpeg,png|max:10000',
+    ]);
 
-        // 4. Cím frissítése
-        if ($request->has('title')) {
-            $album->title = $fields['title'];
-        }
+    if ($request->has('title')) {
+        $album->title = $fields['title'];
+    }
 
-        // 5. Borító frissítése
-        if ($request->hasFile('album_cover')) {
+    if ($request->hasFile('album_cover')) {
 
-            // Régi borító törlése (ha nem alapértelmezett)
-            $oldCoverPath = str_replace('storage/', '', $album->album_cover);
-            if (!Str::startsWith($oldCoverPath, 'defaults')) {
+        $oldCoverPath = str_replace(['storage/public/', 'app/public/', 'public/', 'storage/'], '', $album->album_cover);
+
+        if (!Str::startsWith($oldCoverPath, 'defaults')) {
+            if (Storage::disk('public')->exists($oldCoverPath)) {
                 Storage::disk('public')->delete($oldCoverPath);
             }
-
-            // Új borító mentése
-            $newCoverPath = $request->file('album_cover')->store('covers', 'public');
-            $fullPath = 'storage/public/' . $newCoverPath;
-
-            $album->album_cover = $fullPath;
-
-            // Tranzakcióba foglaljuk a dalok frissítését, hogy biztosan minden sikerüljön
-            DB::transaction(function () use ($album, $fullPath) {
-                $album->save();
-
-                // Az összes kapcsolódó zene borítójának frissítése
-                $album->songs()->update(['cover' => $fullPath]);
-            });
-        } else {
-            // Ha nem volt borító csere, csak sima mentés (pl. csak cím változott)
-            $album->save();
         }
 
-        return response()->json([
-            'message' => 'Album updated successfully!',
-            'album' => $album->load('songs')
-        ]);
+        $newCoverPath = $request->file('album_cover')->store('covers', 'public');
+
+        $fullPath = 'storage/public/' . $newCoverPath;
+        $album->album_cover = $fullPath;
+
+        DB::transaction(function () use ($album, $fullPath) {
+            $album->save();
+
+
+            $album->songs()->update(['cover' => $fullPath]);
+        });
+    } else {
+
+        $album->save();
     }
+
+    return response()->json([
+        'message' => 'Album updated successfully!',
+        'album' => $album->load('songs')
+    ]);
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, $id)
     {
-        // 1. Album betöltése a dalokkal
+
         $album = Album::with('songs')->find($id);
 
         if(!$album) {
             return response()->json(['message' => 'Album not found!'], 404);
         }
 
-        // 2. Jogosultság ellenőrzése
+
         if ($album->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized!'], 403);
         }
 
-        // 3. A dalok audio fájljainak törlése (VÉDELEMMEL)
         foreach ($album->songs as $song) {
             $audioPath = str_replace('app/public/', '', $song->stored_at);
 
-            // Ellenőrizzük, hogy létezik-e, ÉS nem a 'defaults' mappában van-e
+
             if (!Str::startsWith($audioPath, 'defaults')) {
                 if (Storage::disk('public')->exists($audioPath)) {
                     Storage::disk('public')->delete($audioPath);
@@ -222,7 +216,7 @@ class AlbumController extends Controller
             }
         }
 
-        // 4. Az album borítójának törlése (VÉDELEMMEL)
+
         $albumCoverPath = str_replace('storage/', '', $album->album_cover);
 
         if (!Str::startsWith($albumCoverPath, 'defaults')) {
@@ -231,7 +225,6 @@ class AlbumController extends Controller
             }
         }
 
-        // 5. Adatbázis rekordok törlése
         $album->delete();
 
         return response()->json([

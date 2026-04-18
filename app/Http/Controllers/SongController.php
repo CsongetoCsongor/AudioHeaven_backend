@@ -130,7 +130,7 @@ class SongController extends Controller
         $size = filesize($path);
         $start = 0;
         $end = $size - 1;
-        
+
 
         $headers = [
             'Content-Type' => 'audio/mpeg',
@@ -237,7 +237,7 @@ class SongController extends Controller
     {
         $song = Song::find($id);
 
-        if(!$song) {
+        if (!$song) {
             return response()->json(['message' => 'Song not found!'], 404);
         }
 
@@ -260,13 +260,17 @@ class SongController extends Controller
 
         if ($request->hasFile('cover')) {
 
-            $oldCoverPath = str_replace('storage/public/', '', $song->cover);
+            $oldCoverPath = str_replace(['storage/public/', 'app/public/', 'public/', 'storage/'], '', $song->cover);
+
             if (!Str::startsWith($oldCoverPath, 'defaults')) {
-                Storage::disk('public')->delete($oldCoverPath);
+                if (Storage::disk('public')->exists($oldCoverPath)) {
+                    Storage::disk('public')->delete($oldCoverPath);
+                }
             }
 
             $newCoverPath = $request->file('cover')->store('covers', 'public');
-            $song->cover = 'storage/' . $newCoverPath;
+
+            $song->cover = 'storage/public/' . $newCoverPath;
         }
 
         $song->save();
@@ -277,27 +281,34 @@ class SongController extends Controller
         ]);
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, $id)
     {
-
         $song = Song::findOrFail($id);
 
         if ($song->user_id !== auth()->id()) {
             return response()->json(['message' => 'Not your song!'], 403);
         }
 
-       $audioPath = str_replace('storage/public/', '', $song->stored_at);
+        $audioPath = str_replace(['storage/public/', 'app/public/', 'public/'], '', $song->stored_at);
+
+
+        $coverPath = str_replace(['storage/public/', 'app/public/', 'public/', 'storage/'], '', $song->cover);
+
 
         if (!Str::startsWith($audioPath, 'defaults')) {
-            Storage::disk('public')->delete($audioPath);
+            if (Storage::disk('public')->exists($audioPath)) {
+                Storage::disk('public')->delete($audioPath);
+            }
         }
 
-        $coverPath = str_replace('storage/public/', '', $song->cover);
         if (!Str::startsWith($coverPath, 'defaults')) {
-            Storage::disk('public')->delete($coverPath);
+            if (Storage::disk('public')->exists($coverPath)) {
+                Storage::disk('public')->delete($coverPath);
+            }
         }
 
         $song->delete();
